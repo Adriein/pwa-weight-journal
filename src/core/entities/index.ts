@@ -5,4 +5,6 @@ export * from './UseCase';
 export * from './PushNotification';
 export * from './Service';
 export * from './PushNotificationSubscription';
+export * from './Category';
+export * from './Exercice';
 
