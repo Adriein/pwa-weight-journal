@@ -7,4 +7,5 @@ export * from './Service';
 export * from './PushNotificationSubscription';
 export * from './Category';
 export * from './Exercice';
+export * from './WeightLog';
 
