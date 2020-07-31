@@ -5,9 +5,8 @@ import mongoose from 'mongoose';
 import chalk from 'chalk';
 import path from 'path';
 import cookieSession from 'cookie-session';
-import { auth, media } from './routes';
+import { auth, media, exercices, logs } from './routes';
 import { errorHandler } from './routes/middlewares';
-import { exercices } from './routes/exercices';
 
 const init = async () => {
   console.log(chalk.blue('Starting up...'));
@@ -42,12 +41,12 @@ const init = async () => {
       httpOnly: false,
     })
   );
-  
+
   app.use('/api/auth', auth);
-  app.use('api', exercices);
+  app.use('/api', exercices);
+  app.use('/api', logs);
   app.use('/api', media);
   app.use(errorHandler);
- 
 
   if (process.env.NODE_ENV === 'pro') {
     app.use((req, res, next) => {

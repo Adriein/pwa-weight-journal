@@ -5,3 +5,4 @@ export * from './auth/RegisterPushSubscriptionUseCase';
 export * from './categories/RetriveAllCategories';
 export * from './exercices/CreateExerciceUseCase';
 export * from './exercices/RetriveAllExercicesUseCase';
+export * from './logs/CreateLogUseCase';

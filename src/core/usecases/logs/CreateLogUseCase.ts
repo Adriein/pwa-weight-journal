@@ -1,6 +1,6 @@
 import { WeightLog, Result, Repository, UseCase } from '../../entities';
-import { AlreadyExists, CustomError, UnExpectedError } from '../../errors';
-import { isEmpty } from '../../helpers';
+import { CustomError, UnExpectedError } from '../../errors';
+
 
 export class CreateWeightLogUseCase implements UseCase<WeightLog> {
   constructor(private repository: Repository<WeightLog>) {}
