@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import useInputState from '../hooks/useInputState';
 import useCounter from '../hooks/useCounter';
@@ -27,6 +28,7 @@ import {
 import Navigation from './Navigation';
 import SearchBar from './SearchBar';
 import LogCard from './LogCard';
+import InfoCard from './InfoCard';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -59,10 +61,16 @@ const useStyles = makeStyles((theme) => ({
   item: {
     marginBottom: theme.spacing(4),
   },
+  info: {
+    position: 'fixed',
+    bottom: 80,
+    width: '90%',
+  },
 }));
 
 export default function RegisterBook() {
   const classes = useStyles();
+  const history = useHistory();
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
   const [value, , , setValue] = useInputState({
@@ -99,23 +107,9 @@ export default function RegisterBook() {
     exerciceDispatcher({ type: 'DISCARD_SELECTION' });
   };
 
-  // useEffect(() => {
-  //   const fetchGroups = async () => {
-  //     try {
-  //       dispatch({
-  //         type: 'FETCH_GROUPS',
-  //         payload: await axios.get('/api/baskets'),
-  //       });
-  //     } catch (error) {
-  //       dispatch({
-  //         type: 'ERROR',
-  //         payload: error.response.data.errors,
-  //       });
-  //     }
-  //   };
-
-  //   fetchGroups();
-  // }, []);
+  const handleRedirect = () => {
+    history.push('/create-exercice');
+  };
 
   return (
     <div className={classes.root}>
@@ -148,11 +142,22 @@ export default function RegisterBook() {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="center">
             {!exercices.selected && (
-              <Grow in={!exercices.selected ? true : false} timeout={1000}>
-                <Grid item xs={12}>
-                  <SearchBar className={classes.item} />
-                </Grid>
-              </Grow>
+              <>
+                <Grow in={!exercices.selected ? true : false} timeout={1000}>
+                  <Grid item xs={12}>
+                    <SearchBar className={classes.item} />
+                  </Grid>
+                </Grow>
+                <Grow in={!exercices.selected ? true : false} timeout={1000}>
+                  <Grid item xs={12} className={classes.info}>
+                    <InfoCard
+                      message={'No encuentras el ejercicio que buscas?'}
+                      button={'Crear Ejercicio'}
+                      action={handleRedirect}
+                    />
+                  </Grid>
+                </Grow>
+              </>
             )}
             {exercices.selected && (
               <>
@@ -190,7 +195,7 @@ export default function RegisterBook() {
       </Container>
       <footer className={classes.footer}>
         <Box mt={8}>
-          <Navigation />
+          <Navigation settings={0}/>
         </Box>
       </footer>
     </div>

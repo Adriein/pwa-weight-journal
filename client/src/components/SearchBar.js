@@ -32,16 +32,17 @@ export default function SearchBar() {
   const exerciceState = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
 
-  const loading = open && exerciceState.exercices.length === 0;
-
   useEffect(() => {
     if (searchTerm !== '' && searchTerm !== undefined) {
+      exerciceDispatcher({
+        type: 'LOADING',
+      });
       setOpen(true);
       (async () => {
         try {
           exerciceDispatcher({
             type: 'FETCH_EXERCICES',
-            payload: (await axios.get('/api/exercices')).data,
+            payload: (await axios.get(`/api/exercices/${searchTerm}`)).data,
           });
         } catch (error) {
           exerciceDispatcher({
@@ -96,24 +97,30 @@ export default function SearchBar() {
           horizontal: 'center',
         }}
       >
-        {loading ? (
+        {exerciceState.loading ? (
           <Grid container justify="center" className={classes.panel}>
             <CircularProgress />
           </Grid>
         ) : (
           <List aria-label="exercices display" className={classes.panel}>
-            {exerciceState.exercices.map((exercice, index) => {
-              return (
-                <React.Fragment key={exercice.id}>
-                  <ListItem button onClick={handleSelect(exercice)}>
-                    <ListItemText primary={exercice.name} />
-                  </ListItem>
-                  {index !== exerciceState.exercices.length - 1 ? (
-                    <Divider />
-                  ) : null}
-                </React.Fragment>
-              );
-            })}
+            {exerciceState.error ? (
+              <ListItem>
+                <ListItemText primary={exerciceState.error} />
+              </ListItem>
+            ) : (
+              exerciceState.exercices.map((exercice, index) => {
+                return (
+                  <React.Fragment key={exercice.id}>
+                    <ListItem button onClick={handleSelect(exercice)}>
+                      <ListItemText primary={exercice.name} />
+                    </ListItem>
+                    {index !== exerciceState.exercices.length - 1 ? (
+                      <Divider />
+                    ) : null}
+                  </React.Fragment>
+                );
+              })
+            )}
           </List>
         )}
       </Popover>

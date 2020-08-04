@@ -7,7 +7,9 @@ export const DispatchContext = createContext();
 const defaultState = {
   exercices: [],
   error: undefined,
+  loading: false,
   selected: undefined,
+  categories: [],
 };
 export function ExerciceProvider(props) {
   const [state, dispatch] = useReducer(exerciceReducer, defaultState);

@@ -6,6 +6,7 @@ import {
   CreateExerciceUseCase,
   RetriveAllCategoriesUseCase,
   RetriveAllExercicesUseCase,
+  SearchExercicesUseCase,
 } from '../core/usecases';
 
 const router: Router = express.Router();
@@ -52,6 +53,21 @@ router.get(
       const usecase = new RetriveAllExercicesUseCase(exerciceRepository);
 
       res.status(200).send((await usecase.execute()).data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/exercices/:search',
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      //Creating the exercice
+      const usecase = new SearchExercicesUseCase(exerciceRepository);
+
+      res.status(200).send((await usecase.execute(req.params.search)).data);
     } catch (error) {
       next(error);
     }

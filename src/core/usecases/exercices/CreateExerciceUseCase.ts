@@ -10,7 +10,9 @@ export class CreateExerciceUseCase implements UseCase<Exercice> {
       const { name } = body;
 
       //Check if the exercice already exists
-      const exerciceOnDb = await this.repository.findOne(name);
+      const exerciceOnDb = await this.repository.findOne(name.toLowerCase());
+
+      body.name = body.name.toLowerCase();
 
       if (!isEmpty(exerciceOnDb))
         throw new AlreadyExists('Exercice already exists in DB');

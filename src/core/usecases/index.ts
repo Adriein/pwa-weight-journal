@@ -6,3 +6,5 @@ export * from './categories/RetriveAllCategories';
 export * from './exercices/CreateExerciceUseCase';
 export * from './exercices/RetriveAllExercicesUseCase';
 export * from './logs/CreateLogUseCase';
+export * from './exercices/SearchExercicesUseCase';
+export * from './logs/RetriveAllLogsUseCase';
