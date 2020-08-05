@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
+import { traduceCategories } from '../helpers';
 
 import useInputState from '../hooks/useInputState';
 import { ExerciceContext } from '../context/ExerciceContext';
@@ -19,9 +20,11 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
+import Box from '@material-ui/core/Box';
 
 import { useHistory } from 'react-router-dom';
 import InfoCard from './InfoCard';
+import Navigation from './Navigation';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -66,15 +69,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
 }));
-
-const traduceCategories = (category) => {
-  if (category === 'arm') return 'Brazo';
-  if (category === 'abdomen') return 'Abdomen';
-  if (category === 'back') return 'Espalda';
-  if (category === 'chest') return 'Pecho';
-  if (category === 'legs') return 'Piernas';
-  if (category === 'shoulder') return 'Hombro';
-};
 
 export default function ExercicesForm() {
   const classes = useStyles();
@@ -223,7 +217,11 @@ export default function ExercicesForm() {
           </Slide>
         )}
       </Container>
-      <footer className={classes.footer}></footer>
+      <footer className={classes.footer}>
+        <Box mt={8}>
+          <Navigation settings={0} />
+        </Box>
+      </footer>
     </div>
   );
 }

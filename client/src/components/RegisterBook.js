@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { traduceCategories } from '../helpers';
 import { useHistory } from 'react-router-dom';
 
 import useInputState from '../hooks/useInputState';
@@ -17,6 +18,12 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -66,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: 80,
     width: '90%',
   },
+  categories: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function RegisterBook() {
@@ -73,6 +83,7 @@ export default function RegisterBook() {
   const history = useHistory();
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [value, , , setValue] = useInputState({
     date: new Date(),
   });
@@ -111,6 +122,15 @@ export default function RegisterBook() {
     history.push('/create-exercice');
   };
 
+  useEffect(() => {
+    (async () => {
+      exerciceDispatcher({
+        type: 'FETCH_CATEGORIES',
+        payload: (await axios.get('/api/categories')).data,
+      });
+    })();
+  }, []);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -146,6 +166,38 @@ export default function RegisterBook() {
                 <Grow in={!exercices.selected ? true : false} timeout={1000}>
                   <Grid item xs={12}>
                     <SearchBar className={classes.item} />
+                  </Grid>
+                </Grow>
+                <Grow in={!exercices.selected ? true : false} timeout={1000}>
+                  <Grid item xs={12}>
+                    <Grid
+                      container
+                      direction="column"
+                      justify="center"
+                      className={classes.categories}
+                    >
+                      {exercices.categories.map((category) => {
+                        return (
+                          // <Grid item xs={4} key={category}>
+                          //   <Chip label={category} clickable />
+                          // </Grid>
+                          <Accordion>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                              <Typography>
+                                {traduceCategories(category)}
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget.
+                              </Typography>
+                            </AccordionDetails>
+                          </Accordion>
+                        );
+                      })}
+                    </Grid>
                   </Grid>
                 </Grow>
                 <Grow in={!exercices.selected ? true : false} timeout={1000}>
@@ -195,7 +247,7 @@ export default function RegisterBook() {
       </Container>
       <footer className={classes.footer}>
         <Box mt={8}>
-          <Navigation settings={0}/>
+          <Navigation settings={0} />
         </Box>
       </footer>
     </div>
