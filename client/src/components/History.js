@@ -23,6 +23,7 @@ import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 
 import Navigation from './Navigation';
+import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -82,30 +83,7 @@ export default function History() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
-          <Grid
-            container
-            justify="center"
-            alignItems="center"
-            direction="column"
-          >
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.toolbarTitle}
-            >
-              Weight Logs
-            </Typography>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+      <Header/>
       <Container maxWidth="md" component="main" className={classes.container}>
         <Timeline align="alternate">
           {logs.logs.map((log) => {

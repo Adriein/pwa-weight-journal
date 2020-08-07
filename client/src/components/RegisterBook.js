@@ -62,16 +62,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   info: {
-    position: 'fixed',
-    bottom: 80,
-    width: '90%',
+    marginTop: theme.spacing(6),
   },
   categories: {
     marginTop: theme.spacing(2),
   },
   categoryContainer: {
     padding: theme.spacing(3),
-    minWidth: '100%'
+    minWidth: '100%',
   },
 }));
 
@@ -144,7 +142,7 @@ export default function RegisterBook() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header/>
+      <Header />
       <Container maxWidth="md" component="main" className={classes.container}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="center">
@@ -162,7 +160,7 @@ export default function RegisterBook() {
                       direction="row"
                       justify="center"
                       className={classes.categories}
-                      spacing={5}
+                      spacing={3}
                     >
                       {exercices.categories.map((category) => {
                         return (
@@ -225,7 +223,7 @@ export default function RegisterBook() {
         </MuiPickersUtilsProvider>
       </Container>
       <footer className={classes.footer}>
-        <Box mt={8}>
+        <Box mt={4}>
           <Navigation settings={0} />
         </Box>
       </footer>
