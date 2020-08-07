@@ -8,22 +8,14 @@ import useCounter from '../hooks/useCounter';
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
 
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -36,6 +28,7 @@ import Navigation from './Navigation';
 import SearchBar from './SearchBar';
 import LogCard from './LogCard';
 import InfoCard from './InfoCard';
+import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -78,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryContainer: {
     padding: theme.spacing(3),
+    minWidth: '100%'
   },
 }));
 
@@ -134,14 +128,14 @@ export default function RegisterBook() {
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      exerciceDispatcher({
-        type: 'FETCH_CATEGORY',
-        payload: (await axios.get(`/api/category/${selectedCategory}`)).data,
-      });
-    })();
-  }, [selectedCategory]);
+  // useEffect(() => {
+  //   (async () => {
+  //     exerciceDispatcher({
+  //       type: 'FETCH_CATEGORY',
+  //       payload: (await axios.get(`/api/category/${selectedCategory}`)).data,
+  //     });
+  //   })();
+  // }, [selectedCategory]);
 
   const clickCategory = (event) => {
     setSelectedCategory(event.currentTarget.id);
@@ -150,30 +144,7 @@ export default function RegisterBook() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
-          <Grid
-            container
-            justify="center"
-            alignItems="center"
-            direction="column"
-          >
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.toolbarTitle}
-            >
-              Weight Logs
-            </Typography>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+      <Header/>
       <Container maxWidth="md" component="main" className={classes.container}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="center">
@@ -195,30 +166,13 @@ export default function RegisterBook() {
                     >
                       {exercices.categories.map((category) => {
                         return (
-                          // <Accordion
-                          //   id={category}
-                          //   onClick={clickCategory}
-                          //   key={category}
-                          // >
-                          //   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          //     <Typography>
-                          //       {traduceCategories(category)}
-                          //     </Typography>
-                          //   </AccordionSummary>
-                          //   <AccordionDetails>
-                          //     {exercices.exercicesByCategory.map((exercice) => {
-                          //       return <Chip label={exercice.name} clickable />;
-                          //     })}
-                          //   </AccordionDetails>
-                          // </Accordion>
                           <Grid item xs={6}>
-                            <Paper elevation={3} className={classes.categoryContainer}>
-                              <Grid container direction="row" justify="center">
-                                <Typography>
-                                  {traduceCategories(category)}
-                                </Typography>
-                              </Grid>
-                            </Paper>
+                            <Button
+                              variant="outlined"
+                              className={classes.categoryContainer}
+                            >
+                              {traduceCategories(category)}
+                            </Button>
                           </Grid>
                         );
                       })}
