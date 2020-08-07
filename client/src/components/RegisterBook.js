@@ -136,7 +136,14 @@ export default function RegisterBook() {
   // }, [selectedCategory]);
 
   const clickCategory = (event) => {
+    console.log(event.currentTarget.id)
     setSelectedCategory(event.currentTarget.id);
+    (async () => {
+      exerciceDispatcher({
+        type: 'FETCH_CATEGORY',
+        payload: (await axios.get(`/api/category/${event.currentTarget.id}`)).data,
+      });
+    })();
   };
 
   return (
@@ -144,9 +151,10 @@ export default function RegisterBook() {
       <CssBaseline />
       <Header />
       <Container maxWidth="md" component="main" className={classes.container}>
+        {selectedCategory && <div>selected cat</div>}
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="center">
-            {!exercices.selected && (
+            {!exercices.selected && !selectedCategory && (
               <>
                 <Grow in={!exercices.selected ? true : false} timeout={1000}>
                   <Grid item xs={12}>
@@ -164,10 +172,12 @@ export default function RegisterBook() {
                     >
                       {exercices.categories.map((category) => {
                         return (
-                          <Grid item xs={6}>
+                          <Grid item xs={6} key={category}>
                             <Button
                               variant="outlined"
                               className={classes.categoryContainer}
+                              id={category}
+                              onClick={clickCategory}
                             >
                               {traduceCategories(category)}
                             </Button>
