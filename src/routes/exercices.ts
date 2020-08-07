@@ -7,6 +7,7 @@ import {
   RetriveAllCategoriesUseCase,
   RetriveAllExercicesUseCase,
   SearchExercicesUseCase,
+  RetriveAllExercicesByCategoryUseCase,
 } from '../core/usecases';
 
 const router: Router = express.Router();
@@ -34,10 +35,23 @@ router.get(
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      //Creating the exercice
       const usecase = new RetriveAllCategoriesUseCase();
 
       res.status(200).send((await usecase.execute()).data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/category/:category',
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const usecase = new RetriveAllExercicesByCategoryUseCase(exerciceRepository);
+
+      res.status(200).send((await usecase.execute(req.params.category)).data);
     } catch (error) {
       next(error);
     }
@@ -49,7 +63,6 @@ router.get(
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      //Creating the exercice
       const usecase = new RetriveAllExercicesUseCase(exerciceRepository);
 
       res.status(200).send((await usecase.execute()).data);
@@ -64,7 +77,6 @@ router.get(
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      //Creating the exercice
       const usecase = new SearchExercicesUseCase(exerciceRepository);
 
       res.status(200).send((await usecase.execute(req.params.search)).data);

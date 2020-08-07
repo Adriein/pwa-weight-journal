@@ -18,6 +18,7 @@ const reducer = (state, action) => {
           loading: false,
           selected: undefined,
           categories: [],
+          exercicesByCategory: []
         };
       }
       return {
@@ -26,6 +27,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [],
+        exercicesByCategory: []
       };
     case 'LOADING':
       return {
@@ -34,6 +36,7 @@ const reducer = (state, action) => {
         loading: true,
         selected: undefined,
         categories: [],
+        exercicesByCategory: []
       };
     case 'FETCH_ERROR':
       return {
@@ -42,6 +45,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
+        exercicesByCategory: []
       };
     case 'SELECT_EXERCICE':
       return {
@@ -50,6 +54,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: action.payload,
         categories: [],
+        exercicesByCategory: []
       };
     case 'DISCARD_SELECTION':
       return {
@@ -58,6 +63,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [],
+        exercicesByCategory: []
       };
     case 'FETCH_CATEGORIES':
       return {
@@ -66,6 +72,16 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...action.payload],
+        exercicesByCategory: []
+      };
+      case 'FETCH_CATEGORY':
+      return {
+        exercices: [],
+        error: undefined,
+        loading: false,
+        selected: undefined,
+        categories: [...state.categories],
+        exercicesByCategory: [...action.payload]
       };
     case 'RESET':
       return {
@@ -74,6 +90,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
+        exercicesByCategory: []
       };
     default:
       return state;

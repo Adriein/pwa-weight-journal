@@ -8,3 +8,4 @@ export * from './exercices/RetriveAllExercicesUseCase';
 export * from './logs/CreateLogUseCase';
 export * from './exercices/SearchExercicesUseCase';
 export * from './logs/RetriveAllLogsUseCase';
+export * from './exercices/RetriveAllExercicesByCategoryUseCase';

@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
   categories: {
     marginTop: theme.spacing(2),
   },
+  categoryContainer: {
+    padding: theme.spacing(3),
+  },
 }));
 
 export default function RegisterBook() {
@@ -131,6 +134,19 @@ export default function RegisterBook() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      exerciceDispatcher({
+        type: 'FETCH_CATEGORY',
+        payload: (await axios.get(`/api/category/${selectedCategory}`)).data,
+      });
+    })();
+  }, [selectedCategory]);
+
+  const clickCategory = (event) => {
+    setSelectedCategory(event.currentTarget.id);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -172,29 +188,38 @@ export default function RegisterBook() {
                   <Grid item xs={12}>
                     <Grid
                       container
-                      direction="column"
+                      direction="row"
                       justify="center"
                       className={classes.categories}
+                      spacing={5}
                     >
                       {exercices.categories.map((category) => {
                         return (
-                          // <Grid item xs={4} key={category}>
-                          //   <Chip label={category} clickable />
-                          // </Grid>
-                          <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                              <Typography>
-                                {traduceCategories(category)}
-                              </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                              <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget.
-                              </Typography>
-                            </AccordionDetails>
-                          </Accordion>
+                          // <Accordion
+                          //   id={category}
+                          //   onClick={clickCategory}
+                          //   key={category}
+                          // >
+                          //   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          //     <Typography>
+                          //       {traduceCategories(category)}
+                          //     </Typography>
+                          //   </AccordionSummary>
+                          //   <AccordionDetails>
+                          //     {exercices.exercicesByCategory.map((exercice) => {
+                          //       return <Chip label={exercice.name} clickable />;
+                          //     })}
+                          //   </AccordionDetails>
+                          // </Accordion>
+                          <Grid item xs={6}>
+                            <Paper elevation={3} className={classes.categoryContainer}>
+                              <Grid container direction="row" justify="center">
+                                <Typography>
+                                  {traduceCategories(category)}
+                                </Typography>
+                              </Grid>
+                            </Paper>
+                          </Grid>
                         );
                       })}
                     </Grid>
