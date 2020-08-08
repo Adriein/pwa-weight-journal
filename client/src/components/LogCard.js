@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
 import { ExerciceContext } from '../context/ExerciceContext';
+import { beautifyName } from '../helpers';
 
 import Log from './Log';
 
@@ -39,12 +40,16 @@ const useStyles = makeStyles((theme) => ({
 export default function LogCard({ counter, modifyCounter, discard, saveLog }) {
   const classes = useStyles();
   const exercice = useContext(ExerciceContext);
+  const [beautifiedExercice] =
+    exercice.selected.name !== '' || exercice.selected.name !== undefined
+      ? beautifyName([exercice.selected])
+      : '';
 
   return (
     <Card className={classes.card}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Typography variant="h6" gutterBottom>
-          {exercice.selected.name}
+          {beautifiedExercice.name}
         </Typography>
       </Grid>
       <Divider />
@@ -66,10 +71,20 @@ export default function LogCard({ counter, modifyCounter, discard, saveLog }) {
       <Divider />
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center">
-          <Fab size="small" aria-label="save" className={classes.okButton} onClick={saveLog}>
+          <Fab
+            size="small"
+            aria-label="save"
+            className={classes.okButton}
+            onClick={saveLog}
+          >
             <DoneIcon />
           </Fab>
-          <Fab size="small" aria-label="save" className={classes.cancelButton} onClick={discard}>
+          <Fab
+            size="small"
+            aria-label="save"
+            className={classes.cancelButton}
+            onClick={discard}
+          >
             <ClearIcon />
           </Fab>
         </Grid>

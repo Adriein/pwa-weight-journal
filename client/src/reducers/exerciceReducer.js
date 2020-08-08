@@ -1,12 +1,4 @@
-const beautifyName = (exericesArr) => {
-  return exericesArr.map((exercice) => {
-    exercice.name = exercice.name
-      .split('')
-      .map((letter, index) => (index === 0 ? letter.toUpperCase() : letter))
-      .join('');
-    return exercice;
-  });
-};
+import { beautifyName } from '../helpers';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -18,7 +10,7 @@ const reducer = (state, action) => {
           loading: false,
           selected: undefined,
           categories: [...state.categories],
-          exercicesByCategory: []
+          exercicesByCategory: [],
         };
       }
       return {
@@ -27,7 +19,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     case 'LOADING':
       return {
@@ -36,7 +28,7 @@ const reducer = (state, action) => {
         loading: true,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     case 'FETCH_ERROR':
       return {
@@ -45,16 +37,17 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     case 'SELECT_EXERCICE':
+      console.log(action.payload)
       return {
         exercices: [],
         error: undefined,
         loading: false,
         selected: action.payload,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     case 'DISCARD_SELECTION':
       return {
@@ -63,7 +56,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     case 'FETCH_CATEGORIES':
       return {
@@ -72,16 +65,16 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...action.payload],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
-      case 'FETCH_CATEGORY':
+    case 'FETCH_CATEGORY':
       return {
         exercices: [],
         error: undefined,
         loading: false,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: [...action.payload]
+        exercicesByCategory: [...action.payload],
       };
     case 'RESET':
       return {
@@ -90,7 +83,7 @@ const reducer = (state, action) => {
         loading: false,
         selected: undefined,
         categories: [...state.categories],
-        exercicesByCategory: []
+        exercicesByCategory: [],
       };
     default:
       return state;

@@ -7,6 +7,7 @@ import useInputState from '../hooks/useInputState';
 import useCounter from '../hooks/useCounter';
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
+import { beautifyName } from '../helpers';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -76,9 +77,6 @@ const useStyles = makeStyles((theme) => ({
   categoryContainer: {
     padding: theme.spacing(3),
     minWidth: '100%',
-  },
-  list: {
-    backgroundColor: theme.palette.action.disabledBackground,
   },
 }));
 
@@ -190,13 +188,14 @@ export default function RegisterBook() {
                       }
                     >
                       {exercices.exercicesByCategory.map((exercice) => {
+                        const [beautifiedExercice] = beautifyName([exercice]);
                         return (
                           <ListItem
                             button
                             key={exercice.name}
                             onClick={selectExercice(exercice)}
                           >
-                            <ListItemText primary={exercice.name} />
+                            <ListItemText primary={beautifiedExercice.name} />
                           </ListItem>
                         );
                       })}
