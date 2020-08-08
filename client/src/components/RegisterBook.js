@@ -21,6 +21,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ClearIcon from '@material-ui/icons/Clear';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -136,6 +137,9 @@ export default function RegisterBook() {
 
   const clickCategory = (event) => {
     setSelectedCategory(event.currentTarget.id);
+    exerciceDispatcher({
+      type: 'LOADING',
+    });
     (async () => {
       exerciceDispatcher({
         type: 'FETCH_CATEGORY',
@@ -155,6 +159,9 @@ export default function RegisterBook() {
 
   const cancel = () => {
     setSelectedCategory('');
+    exerciceDispatcher({
+      type: 'RESET',
+    });
   };
 
   return (
@@ -165,39 +172,48 @@ export default function RegisterBook() {
         {selectedCategory && (
           <Slide direction="left" in={selectedCategory ? true : false}>
             <Grid container justify="center" spacing={3}>
-              <Grid item xs={12}>
-                <List
-                  aria-labelledby="nested-list-subheader"
-                  subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                      Resultado de ejercicios por categoria{' '}
-                      {traduceCategories(selectedCategory)}:
-                    </ListSubheader>
-                  }
-                >
-                  {exercices.exercicesByCategory.map((exercice) => {
-                    return (
-                      <ListItem
-                        button
-                        key={exercice.name}
-                        onClick={selectExercice(exercice)}
-                      >
-                        <ListItemText primary={exercice.name} />
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<ClearIcon />}
-                  onClick={cancel}
-                >
-                  Atras
-                </Button>
-              </Grid>
+              {exercices.loading ? (
+                <CircularProgress />
+              ) : (
+                <>
+                  <Grid item xs={12}>
+                    <List
+                      aria-labelledby="nested-list-subheader"
+                      subheader={
+                        <ListSubheader
+                          component="div"
+                          id="nested-list-subheader"
+                        >
+                          Resultado de ejercicios por categoria{' '}
+                          {traduceCategories(selectedCategory)}:
+                        </ListSubheader>
+                      }
+                    >
+                      {exercices.exercicesByCategory.map((exercice) => {
+                        return (
+                          <ListItem
+                            button
+                            key={exercice.name}
+                            onClick={selectExercice(exercice)}
+                          >
+                            <ListItemText primary={exercice.name} />
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<ClearIcon />}
+                      onClick={cancel}
+                    >
+                      Atras
+                    </Button>
+                  </Grid>
+                </>
+              )}
             </Grid>
           </Slide>
         )}
