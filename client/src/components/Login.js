@@ -126,7 +126,7 @@ export default function Login(props) {
             id="username"
             label="Nombre"
             name="username"
-            autoComplete="username"
+            autoComplete="off"
             autoFocus
             onChange={handleChange}
             value={value.username}
@@ -140,7 +140,7 @@ export default function Login(props) {
             label="Contraseña"
             type="password"
             id="password"
-            autoComplete="current-password"
+            autoComplete="off"
             onChange={handleChange}
             value={value.password}
           />

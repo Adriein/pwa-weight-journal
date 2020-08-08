@@ -20,36 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     flexWrap: 'wrap',
-  },
-  container: {
-    padding: theme.spacing(3, 2, 2, 2),
-  },
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  footer: {
-    marginTop: 'auto',
-  },
-  error: {
-    marginTop: theme.spacing(5),
-  },
-  item: {
-    marginBottom: theme.spacing(4),
-  },
-  info: {
-    position: 'fixed',
-    bottom: 80,
-    width: '90%',
-  },
-  categories: {
-    marginTop: theme.spacing(2),
-  },
-  categoryContainer: {
-    padding: theme.spacing(3),
-    minWidth: '100%',
-  },
+  }
 }));
 
 export default function Header() {

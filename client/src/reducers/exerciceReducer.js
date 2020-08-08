@@ -17,7 +17,7 @@ const reducer = (state, action) => {
           error: 'No se han encontrado ejercicios...',
           loading: false,
           selected: undefined,
-          categories: [],
+          categories: [...state.categories],
           exercicesByCategory: []
         };
       }
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
         error: undefined,
         loading: false,
         selected: undefined,
-        categories: [],
+        categories: [...state.categories],
         exercicesByCategory: []
       };
     case 'LOADING':
@@ -35,7 +35,7 @@ const reducer = (state, action) => {
         error: undefined,
         loading: true,
         selected: undefined,
-        categories: [],
+        categories: [...state.categories],
         exercicesByCategory: []
       };
     case 'FETCH_ERROR':
@@ -53,7 +53,7 @@ const reducer = (state, action) => {
         error: undefined,
         loading: false,
         selected: action.payload,
-        categories: [],
+        categories: [...state.categories],
         exercicesByCategory: []
       };
     case 'DISCARD_SELECTION':
@@ -62,7 +62,7 @@ const reducer = (state, action) => {
         error: undefined,
         loading: false,
         selected: undefined,
-        categories: [],
+        categories: [...state.categories],
         exercicesByCategory: []
       };
     case 'FETCH_CATEGORIES':

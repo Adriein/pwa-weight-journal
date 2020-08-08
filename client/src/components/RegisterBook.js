@@ -16,6 +16,11 @@ import Box from '@material-ui/core/Box';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 import Button from '@material-ui/core/Button';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -70,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
   categoryContainer: {
     padding: theme.spacing(3),
     minWidth: '100%',
+  },
+  list: {
+    backgroundColor: theme.palette.action.disabledBackground,
   },
 }));
 
@@ -126,24 +134,27 @@ export default function RegisterBook() {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     exerciceDispatcher({
-  //       type: 'FETCH_CATEGORY',
-  //       payload: (await axios.get(`/api/category/${selectedCategory}`)).data,
-  //     });
-  //   })();
-  // }, [selectedCategory]);
-
   const clickCategory = (event) => {
-    console.log(event.currentTarget.id)
     setSelectedCategory(event.currentTarget.id);
     (async () => {
       exerciceDispatcher({
         type: 'FETCH_CATEGORY',
-        payload: (await axios.get(`/api/category/${event.currentTarget.id}`)).data,
+        payload: (await axios.get(`/api/category/${event.currentTarget.id}`))
+          .data,
       });
     })();
+  };
+
+  const selectExercice = (exercice) => () => {
+    setSelectedCategory('');
+    exerciceDispatcher({
+      type: 'SELECT_EXERCICE',
+      payload: exercice,
+    });
+  };
+
+  const cancel = () => {
+    setSelectedCategory('');
   };
 
   return (
@@ -151,7 +162,45 @@ export default function RegisterBook() {
       <CssBaseline />
       <Header />
       <Container maxWidth="md" component="main" className={classes.container}>
-        {selectedCategory && <div>selected cat</div>}
+        {selectedCategory && (
+          <Slide direction="left" in={selectedCategory ? true : false}>
+            <Grid container justify="center" spacing={3}>
+              <Grid item xs={12}>
+                <List
+                  aria-labelledby="nested-list-subheader"
+                  subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                      Resultado de ejercicios por categoria{' '}
+                      {traduceCategories(selectedCategory)}:
+                    </ListSubheader>
+                  }
+                >
+                  {exercices.exercicesByCategory.map((exercice) => {
+                    return (
+                      <ListItem
+                        button
+                        key={exercice.name}
+                        onClick={selectExercice(exercice)}
+                      >
+                        <ListItemText primary={exercice.name} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ClearIcon />}
+                  onClick={cancel}
+                >
+                  Atras
+                </Button>
+              </Grid>
+            </Grid>
+          </Slide>
+        )}
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="center">
             {!exercices.selected && !selectedCategory && (

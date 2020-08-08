@@ -6,11 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { LogsContext } from '../context/LogsContext';
 import { DispatchContext } from '../context/LogsContext';
 
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
