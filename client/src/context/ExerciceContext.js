@@ -10,7 +10,7 @@ const defaultState = {
   loading: false,
   selected: undefined,
   categories: [],
-  exercicesByCategory: []
+  exercicesByCategory: { category: 'Cargando...', exercices: [] },
 };
 export function ExerciceProvider(props) {
   const [state, dispatch] = useReducer(exerciceReducer, defaultState);

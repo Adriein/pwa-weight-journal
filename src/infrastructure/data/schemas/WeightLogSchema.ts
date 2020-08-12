@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 export interface WeightLogDoc extends mongoose.Document {
   _id: string;
+  userId: string;
   exerciceId: string;
   stats: { kg: number; reps: number; series: number };
   date: Date;
@@ -10,6 +11,10 @@ export interface WeightLogDoc extends mongoose.Document {
 
 const logSchema = new Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     exerciceId: {
       type: String,
       required: true,

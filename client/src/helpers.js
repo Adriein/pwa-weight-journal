@@ -5,6 +5,7 @@ export const traduceCategories = (category) => {
     if (category === 'chest') return 'Pecho';
     if (category === 'legs') return 'Piernas';
     if (category === 'shoulder') return 'Hombro';
+    return 'Cargando...'
   }
 
   export const beautifyName = (exericesArr) => {

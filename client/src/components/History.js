@@ -22,12 +22,6 @@ import Navigation from './Navigation';
 import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  toolbar: {
-    flexWrap: 'wrap',
-  },
   container: {
     padding: theme.spacing(3, 2, 2, 2),
   },
@@ -79,7 +73,7 @@ export default function History() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header/>
+      <Header currentPage={"Historial"}/>
       <Container maxWidth="md" component="main" className={classes.container}>
         <Timeline align="alternate">
           {logs.logs.map((log) => {

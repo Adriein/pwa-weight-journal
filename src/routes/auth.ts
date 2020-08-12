@@ -21,16 +21,6 @@ const router: Router = express.Router();
 const userRepository: Repository<User> = new UserRepository();
 const pushRepository: Repository<PushNotificationSubscription> = new PushNotificationSubscriptionRepository();
 
-let pushSubscripton;
-
-router.post('/notifications', async (req, res) => {
-  pushSubscripton = req.body;
-  console.log(pushSubscripton);
-
-  // Server's Response
-  res.status(201).json();
-});
-
 router.post(
   '/register',
   async (req: Request, res: Response, next: NextFunction) => {

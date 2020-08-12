@@ -15,6 +15,13 @@ export class RetriveAllLogsUseCase implements UseCase<WeightLog> {
 
   async execute(): Promise<Result<WeightLog>> {
     try {
+
+      //Agrupate logs by number passed by params to the execute function
+      const now = new Date();
+      const until = now.setDate(now.getDate() - 5);
+      console.log(new Date(until))
+
+      //Hydratate the logs including the name of the exercice for visualitzation propouses
       const allLogs = await this.repository.findMany({});
 
       const hydratedLogs = await Promise.all(

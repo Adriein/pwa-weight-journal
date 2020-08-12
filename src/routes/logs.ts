@@ -1,4 +1,4 @@
-import { requireAuth } from './middlewares/auth';
+import { requireAuth, currentUser } from './middlewares/auth';
 import express, { Router, Request, Response, NextFunction } from 'express';
 import { Repository, WeightLog, Exercice } from '../core/entities';
 import {
@@ -17,11 +17,16 @@ const exerciceRepository: Repository<Exercice> = new ExerciceRepository();
 router.post(
   '/log',
   requireAuth,
+  currentUser,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       //Creating the weight log
       const usecase = new CreateWeightLogUseCase(logsRepository);
-      const createdLog = (await usecase.execute(req.body)).data as WeightLog[];
+      const createdLog = (
+        await usecase.execute(
+          Object.assign({}, { userId: req.currentUser!.id }, req.body)
+        )
+      ).data as WeightLog[];
 
       res.status(200).send(createdLog);
     } catch (error) {
