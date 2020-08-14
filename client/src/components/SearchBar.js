@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   panel: {
     width: '340px',
     padding: theme.spacing(1, 1, 1, 1),
+    backgroundColor: '#D9E2EC'
   },
 }));
 

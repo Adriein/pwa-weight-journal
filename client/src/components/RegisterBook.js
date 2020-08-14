@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    padding: theme.spacing(3, 2, 2, 2),
+    padding: theme.spacing(2, 2, 2, 2),
+    backgroundColor: '#F0F4F8'
   },
   root: {
     display: 'flex',
@@ -66,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     minWidth: '100%',
   },
+  title: {
+    color: '#7A0ECC',
+  }
 }));
 
 export default function RegisterBook() {
@@ -149,7 +153,7 @@ export default function RegisterBook() {
               <>
                 <Grow in={!exercices.selected ? true : false} timeout={1000}>
                   <Grid item xs={12}>
-                    <Typography variant="subtitle1" gutterBottom>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
                       Busca por nombre
                     </Typography>
                     <SearchBar className={classes.item} />
