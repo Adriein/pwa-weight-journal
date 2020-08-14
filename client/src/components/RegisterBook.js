@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     padding: theme.spacing(2, 2, 2, 2),
-    backgroundColor: '#F0F4F8',
+    backgroundColor: '#ffffff',
   },
   root: {
     display: 'flex',
@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   categoryContainer: {
     padding: theme.spacing(3),
     minWidth: '100%',
+    backgroundColor: '#F0F4F8',
   },
   title: {
     color: '#212429',

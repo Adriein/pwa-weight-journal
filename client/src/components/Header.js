@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     backgroundColor: '#2368a2',
-    color: '#f1f3f5',
+    color: '#ffffff',
   },
   toolbar: {
     flexWrap: 'wrap',
   },
   avatar: {
     backgroundColor: '#1a4971',
-    color: '#f1f3f5',
+    color: '#ffffff',
   },
   exit: {
     color: '#12283a',
