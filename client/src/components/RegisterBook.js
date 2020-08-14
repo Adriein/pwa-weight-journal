@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     padding: theme.spacing(2, 2, 2, 2),
-    backgroundColor: '#F0F4F8'
+    backgroundColor: '#F0F4F8',
   },
   root: {
     display: 'flex',
@@ -68,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '100%',
   },
   title: {
-    color: '#7A0ECC',
-  }
+    color: '#212429',
+  },
 }));
 
 export default function RegisterBook() {
@@ -148,60 +148,51 @@ export default function RegisterBook() {
       <Header currentPage={'Registros'} />
       <Container maxWidth="md" component="main" className={classes.container}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container justify="center">
-            {!exercices.selected && (
-              <>
-                <Grow in={!exercices.selected ? true : false} timeout={1000}>
+          <Grow in={!exercices.selected ? true : false} timeout={1000}>
+            <Grid container justify="center" spacing={2}>
+              {!exercices.selected && (
+                <>
                   <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom className={classes.title}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      className={classes.title}
+                    >
                       Busca por nombre
                     </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
                     <SearchBar className={classes.item} />
                   </Grid>
-                </Grow>
-                <Grow in={!exercices.selected ? true : false} timeout={1000}>
-                  <Grid item xs={12}>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="center"
-                      className={classes.categories}
-                      spacing={2}
-                    >
-                      <Grid item xs={12}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Categoria
-                        </Typography>
-                      </Grid>
 
-                      {exercices.categories.map((category) => {
-                        return (
-                          <Grid item xs={6} key={category}>
-                            <Button
-                              variant="outlined"
-                              className={classes.categoryContainer}
-                              id={category}
-                              onClick={clickCategory}
-                            >
-                              {traduceCategories(category)}
-                            </Button>
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      className={classes.title}
+                    >
+                      Categoria
+                    </Typography>
                   </Grid>
-                </Grow>
-                <Grow in={!exercices.selected ? true : false} timeout={1000}>
-                  <Grid item xs={12} className={classes.info}>
-                    {/* <InfoCard
-                      message={'No encuentras el ejercicio que buscas?'}
-                      button={'Crear Ejercicio'}
-                      action={handleRedirect}
-                    /> */}
-                  </Grid>
-                </Grow>
-              </>
-            )}
+                  {exercices.categories.map((category) => {
+                    return (
+                      <Grid item xs={12} key={category}>
+                        <Button
+                          variant="outlined"
+                          className={classes.categoryContainer}
+                          id={category}
+                          onClick={clickCategory}
+                        >
+                          {traduceCategories(category)}
+                        </Button>
+                      </Grid>
+                    );
+                  })}
+                </>
+              )}
+            </Grid>
+          </Grow>
+          <Grid container justify="center">
             {exercices.selected && (
               <>
                 <Slide direction="down" in={exercices.selected ? true : false}>

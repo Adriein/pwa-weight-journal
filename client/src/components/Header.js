@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +10,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { AuthContext } from '../context/AuthContext';
 import { DispatchContext } from '../context/AuthContext';
@@ -26,9 +27,13 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   avatar: {
-    backgroundColor: '#aad4f5',
-    color: '#f1f3f5'
-  }
+    backgroundColor: '#1a4971',
+    color: '#f1f3f5',
+  },
+  exit: {
+    color: '#12283a',
+    marginRight: theme.spacing(1),
+  },
 }));
 
 export default function Header({ currentPage, navigation, goBack }) {
@@ -79,25 +84,37 @@ export default function Header({ currentPage, navigation, goBack }) {
         >
           {navigation && (
             <IconButton onClick={goBack}>
-              <ArrowBackIosIcon />
+              <ArrowBackIosIcon style={{ color: '#f1f3f5' }} />
             </IconButton>
           )}
           <Typography
-            variant="h4"
+            variant="h5"
             color="inherit"
             noWrap
             className={classes.toolbarTitle}
           >
             {currentPage}
           </Typography>
-          <Avatar className={classes.avatar} onClick={handleClick}>{getFirstLetter(auth.username)}</Avatar>
+          <Avatar className={classes.avatar} onClick={handleClick}>
+            {getFirstLetter(auth.username)}
+          </Avatar>
           <Menu
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleLogout}>Salir</MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <Typography
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.exit}
+              >
+                Salir
+              </Typography>
+              <ExitToAppIcon style={{ color: '#12283a' }} />
+            </MenuItem>
           </Menu>
         </Grid>
       </Toolbar>

@@ -6,6 +6,12 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 
+// const useStyles = makeStyles({
+//   root: {
+//     width: 500,
+//   },
+// });
+
 export default function Navigation({ settings }) {
   const history = useHistory();
   const [menu, setMenu] = useState(settings);
