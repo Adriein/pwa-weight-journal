@@ -72,7 +72,7 @@ export default function Header({ currentPage, navigation, goBack }) {
     <AppBar
       position="static"
       color="default"
-      elevation={0}
+      elevation={1}
       className={classes.appBar}
     >
       <Toolbar className={classes.toolbar}>

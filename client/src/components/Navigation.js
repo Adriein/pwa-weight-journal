@@ -5,15 +5,29 @@ import HistoryIcon from '@material-ui/icons/History';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+import AppBar from '@material-ui/core/AppBar';
 
-// const useStyles = makeStyles({
-//   root: {
-//     width: 500,
-//   },
-// });
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    top: 'auto',
+    bottom: 0,
+  },
+  navigation: {
+    backgroundColor: '#F0F4F8',
+  },
+  selected: {
+    color: '#1a4971',
+    '&$selected': {
+      color: '#1a4971',
+    },
+  },
+}));
 
 export default function Navigation({ settings }) {
   const history = useHistory();
+  const classes = useStyles();
   const [menu, setMenu] = useState(settings);
 
   const navigate = (event) => {
@@ -26,19 +40,33 @@ export default function Navigation({ settings }) {
     }
   };
   return (
-    <BottomNavigation value={menu} showLabels>
-      <BottomNavigationAction
-        label="Registros"
-        name="register"
-        icon={<BookmarkIcon />}
-        onClick={navigate}
-      />
-      <BottomNavigationAction
-        label="Histórico"
-        name="historic"
-        icon={<HistoryIcon />}
-        onClick={navigate}
-      />
-    </BottomNavigation>
+    <AppBar
+      color="default"
+      position="fixed"
+      className={classes.appBar}
+    >
+      <BottomNavigation value={menu} showLabels className={classes.navigation}>
+        <BottomNavigationAction
+          label="Registros"
+          name="register"
+          icon={<BookmarkIcon />}
+          onClick={navigate}
+          classes={{
+            root: classes.root,
+            selected: classes.selected,
+          }}
+        />
+        <BottomNavigationAction
+          label="Histórico"
+          name="historic"
+          icon={<HistoryIcon />}
+          onClick={navigate}
+          classes={{
+            root: classes.root,
+            selected: classes.selected,
+          }}
+        />
+      </BottomNavigation>
+    </AppBar>
   );
 }

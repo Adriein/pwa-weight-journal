@@ -17,6 +17,7 @@ import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     padding: theme.spacing(2, 2, 2, 2),
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F0F4F8',
   },
   root: {
     display: 'flex',
@@ -66,11 +67,14 @@ const useStyles = makeStyles((theme) => ({
   categoryContainer: {
     padding: theme.spacing(3),
     minWidth: '100%',
-    backgroundColor: '#F0F4F8',
+    backgroundColor: '#ffffff',
   },
   title: {
     color: '#212429',
   },
+  categoryList: {
+    marginBottom: theme.spacing(2),
+  }
 }));
 
 export default function RegisterBook() {
@@ -150,7 +154,7 @@ export default function RegisterBook() {
       <Container maxWidth="md" component="main" className={classes.container}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grow in={!exercices.selected ? true : false} timeout={1000}>
-            <Grid container justify="center" spacing={2}>
+            <Grid container justify="center" spacing={2} className={classes.categoryList}>
               {!exercices.selected && (
                 <>
                   <Grid item xs={12}>
@@ -178,14 +182,14 @@ export default function RegisterBook() {
                   {exercices.categories.map((category) => {
                     return (
                       <Grid item xs={12} key={category}>
-                        <Button
-                          variant="outlined"
+                        <Paper
+                          elevation={3}
                           className={classes.categoryContainer}
                           id={category}
                           onClick={clickCategory}
                         >
                           {traduceCategories(category)}
-                        </Button>
+                        </Paper>
                       </Grid>
                     );
                   })}
