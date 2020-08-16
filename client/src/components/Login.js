@@ -5,19 +5,6 @@ import { DispatchContext } from '../context/AuthContext';
 import { Redirect } from 'react-router-dom';
 import useInputState from '../hooks/useInputState';
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import Box from '@material-ui/core/Box';
-
 import Copyright from './Copyright';
 
 const PUBLIC_VAPID_KEY =
@@ -36,33 +23,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    width: theme.spacing(10),
-    height: theme.spacing(10),
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 export default function Login(props) {
-  const classes = useStyles();
   const dispatch = useContext(DispatchContext);
   const { auth, getToken } = useContext(AuthContext);
   const [value, handleChange, reset] = useInputState({
@@ -105,73 +66,55 @@ export default function Login(props) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar
-          variant="square"
-          className={classes.avatar}
-          alt="Remy Sharp"
-          src="/api/static/1"
-        />
-        <Typography component="h1" variant="h5">
-          Iniciar Sesión
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Nombre"
-            name="username"
-            autoComplete="off"
-            autoFocus
-            onChange={handleChange}
-            value={value.username}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="off"
-            onChange={handleChange}
-            value={value.password}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="remember"
-                checked={value.remember}
-                onChange={handleChange}
-                color="primary"
-              />
-            }
-            label="Recordar la cuenta"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Entrar
-          </Button>
-        </form>
+    <div className="h-screen flex flex-col justify-start items-center p-4">
+      <div className="absolute inset-x-0 top-0 h-64 bg-blue-500 shadow-md"></div>
+      <div className="z-10 flex flex-col items-center m-4">
+        <div className="w-20 h-20 rounded-full bg-blue-200">
+          <img className="p-1 object-cover" src="/api/static/1" />
+        </div>
+        <p className="text-3xl text-white">Weight Logs</p>
       </div>
-      <Snackbar open={auth.errormsg ? true : false} autoHideDuration={6000}>
-        <Alert severity="error">{auth.errormsg}</Alert>
-      </Snackbar>
-      <Box mt={8}>
+      <form className="z-10 bg-white p-4 rounded-lg shadow-lg">
+        <p className="text-xl text-blue-800 font-semibold mb-4">
+          Introduce los datos de acceso
+        </p>
+
+        <input
+          type="text"
+          name="username"
+          className="bg-white appearance-none border-2 border-gray-400 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base mb-4"
+          placeholder="Nombre de usuario..."
+          onChange={handleChange}
+          value={value.username}
+        />
+        <input
+          type="password"
+          name="password"
+          className="bg-white appearance-none border-2 border-gray-400 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
+          placeholder="Password"
+          onChange={handleChange}
+          value={value.password}
+        />
+        <div className="flex items-center mt-4 mb-4">
+          <input
+            className="mr-2 h-4 w-4  appearance-none rounded border-2 border-gray-400 checked:outline-none checked:bg-blue-500 checked:border-blue-800"
+            id="remember-me"
+            type="checkbox"
+          />
+          <label className="text-gray-400 font-normal" for="remember-me">
+            Recuerdame
+          </label>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <button className="appearance-none rounded-full bg-blue-800 w-40 p-2 text-white text-xl font-semibold mt-4 mb-1" onClick={handleSubmit}>
+            Entrar
+          </button>
+        </div>
+      </form>
+      <div className="flex items-end flex-grow">
         <Copyright />
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 }

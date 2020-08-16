@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-import TextField from '@material-ui/core/TextField';
 import Popover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -76,22 +75,12 @@ export default function SearchBar() {
     <>
       <input
         id="search-bar"
-        class="bg-white appearance-none border-2 border-gray-300 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
+        className="bg-white appearance-none border-2 border-gray-300 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
         type="text"
         value={value}
         onChange={handleChange}
         placeholder="Buscar..."
       />
-
-      {/* <TextField
-        autoComplete="off"
-        id="search-bar"
-        variant="outlined"
-        placeholder="Ejercicio..."
-        value={value}
-        onChange={handleChange}
-        fullWidth
-      /> */}
 
       <Popover
         id="sub-menu"

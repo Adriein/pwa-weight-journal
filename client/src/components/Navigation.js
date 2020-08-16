@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
   },
   navigation: {
-    backgroundColor: '#F0F4F8',
+    backgroundColor: '#ffffff',
   },
   selected: {
     color: '#1a4971',
@@ -34,8 +34,11 @@ export default function Navigation({ settings }) {
     if (event.currentTarget.name === 'register') {
       setMenu(0);
       history.push('/logs');
-    } else {
+    } if (event.currentTarget.name === 'home') {
       setMenu(1);
+      history.push('/home');
+    } else {
+      setMenu(2);
       history.push('/history');
     }
   };
@@ -50,6 +53,16 @@ export default function Navigation({ settings }) {
           label="Registros"
           name="register"
           icon={<BookmarkIcon />}
+          onClick={navigate}
+          classes={{
+            root: classes.root,
+            selected: classes.selected,
+          }}
+        />
+        <BottomNavigationAction
+          label="Home"
+          name="home"
+          icon={<HistoryIcon />}
           onClick={navigate}
           classes={{
             root: classes.root,
