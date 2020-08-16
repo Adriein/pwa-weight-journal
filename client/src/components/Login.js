@@ -72,7 +72,7 @@ export default function Login(props) {
         <div className="w-20 h-20 rounded-full bg-blue-200">
           <img className="p-1 object-cover" src="/api/static/1" />
         </div>
-        <p className="text-3xl text-white">Weight Logs</p>
+        <p className="text-3xl text-white">WeLog</p>
       </div>
       <form className="z-10 bg-white p-4 rounded-lg shadow-lg">
         <p className="text-xl text-blue-800 font-semibold mb-4">
