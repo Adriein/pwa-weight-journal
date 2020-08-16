@@ -70,12 +70,12 @@ export default function Login(props) {
       <div className="absolute inset-x-0 top-0 h-64 bg-blue-500 shadow-md"></div>
       <div className="z-10 flex flex-col items-center m-4">
         <div className="w-20 h-20 rounded-full bg-blue-200">
-          <img className="p-1 object-cover" src="/api/static/1" />
+          <img className="p-2 object-cover" src="/api/static/1" />
         </div>
-        <p className="text-3xl text-white">WeLog</p>
+        <p className="text-3xl text-white mt-4 font-semibold">WeLog</p>
       </div>
-      <form className="z-10 bg-white p-4 rounded-lg shadow-lg">
-        <p className="text-xl text-blue-800 font-semibold mb-4">
+      <form className="z-10 bg-white p-8 rounded-lg shadow-lg mt-3">
+        <p className="text-xl text-blue-800 font-normal mb-4">
           Introduce los datos de acceso
         </p>
 
