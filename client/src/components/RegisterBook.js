@@ -183,7 +183,7 @@ export default function RegisterBook() {
                     return (
                       <Grid item xs={12} key={category}>
                         <Paper
-                          elevation={3}
+                          elevation={1}
                           className={classes.categoryContainer}
                           id={category}
                           onClick={clickCategory}

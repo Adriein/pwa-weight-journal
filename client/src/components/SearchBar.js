@@ -74,7 +74,16 @@ export default function SearchBar() {
 
   return (
     <>
-      <TextField
+      <input
+        id="search-bar"
+        class="bg-white appearance-none border-2 border-gray-300 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder="Buscar..."
+      />
+
+      {/* <TextField
         autoComplete="off"
         id="search-bar"
         variant="outlined"
@@ -82,7 +91,7 @@ export default function SearchBar() {
         value={value}
         onChange={handleChange}
         fullWidth
-      />
+      /> */}
 
       <Popover
         id="sub-menu"
