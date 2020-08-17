@@ -101,7 +101,7 @@ export default function Login(props) {
             id="remember-me"
             type="checkbox"
           />
-          <label className="text-gray-400 font-normal" for="remember-me">
+          <label className="text-gray-400 font-normal" htmlFor="remember-me">
             Recuerdame
           </label>
         </div>
