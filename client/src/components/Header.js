@@ -96,7 +96,7 @@ export default function Header({ currentPage, navigation, goBack }) {
             {currentPage}
           </Typography>
           <Avatar className={classes.avatar} onClick={handleClick}>
-            {getFirstLetter(auth.username)}
+            {getFirstLetter(localStorage.getItem('username' || auth.username))}
           </Avatar>
           <Menu
             anchorEl={anchorEl}
