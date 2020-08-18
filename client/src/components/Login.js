@@ -81,7 +81,12 @@ export default function Login() {
 
   return (
     <div className="h-screen flex flex-col justify-start items-center p-4">
-      <div className={`fixed z-20 inset-0 bg-black opacity-50 ${open? 'transition duration-1000 ease-in' : 'hidden'}`} onClick={() => setOpen(!open)}></div>
+      <div
+        className={`fixed z-20 inset-0 bg-black opacity-50 ${
+          open ? 'transition duration-1000 ease-in' : 'hidden'
+        }`}
+        onClick={() => setOpen(!open)}
+      ></div>
       <div className="absolute inset-x-0 top-0 h-64 bg-blue-500 shadow-md">
         <div
           className={`absolute top-0 right-0 w-8 h-8 mt-3 mr-2 rounded-full z-20 ${
