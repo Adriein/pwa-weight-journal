@@ -5,7 +5,7 @@ import { DispatchContext } from '../context/AuthContext';
 import { Redirect } from 'react-router-dom';
 import useInputState from '../hooks/useInputState';
 
-import { MdDone, MdMoreVert } from 'react-icons/md';
+import { MdDone, MdMoreVert, MdAccountCircle } from 'react-icons/md';
 import Copyright from './Copyright';
 
 const PUBLIC_VAPID_KEY =
@@ -26,7 +26,7 @@ function urlBase64ToUint8Array(base64String) {
 
 export default function Login() {
   const dispatch = useContext(DispatchContext);
-  const { getToken } = useContext(AuthContext);
+  const { auth, getToken } = useContext(AuthContext);
   const [remember, setRemember] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, handleChange, reset] = useInputState({
@@ -83,7 +83,9 @@ export default function Login() {
     <div className="h-screen flex flex-col justify-start items-center p-4">
       <div
         className={`fixed z-20 inset-0 bg-black ${
-          open ? 'transition duration-500 ease-in opacity-50 ' : 'invisible opacity-0'
+          open
+            ? 'transition duration-500 ease-in opacity-50 '
+            : 'invisible opacity-0'
         }`}
         onClick={() => setOpen(!open)}
       ></div>
@@ -99,16 +101,19 @@ export default function Login() {
           />
         </div>
         <div
-          className={`absolute rounded w-32 h-8 bg-blue-100 top-0 right-0 p-2 mt-12 mr-3 flex-auto justify-center shadow-md ${
-            open ? 'transition duration-500 ease-in z-20 opacity-100' : 'invisible opacity-0'
+          className={`absolute rounded bg-blue-100 top-0 right-0 p-2 mt-12 mr-3 flex items-center shadow-md ${
+            open
+              ? 'transition duration-500 ease-in z-20 opacity-100'
+              : 'invisible opacity-0'
           }`}
         >
           <p
-            className="text-blue-800 text-xs font-semibold"
+            className="text-blue-800 text-base font-semibold mr-2"
             onClick={handleChangeUser}
           >
             Cambiar de usuario
           </p>
+          <MdAccountCircle className="w-6 h-6 text-blue-800" />
         </div>
       </div>
       <div className="z-10 flex flex-col items-center m-4">
@@ -131,7 +136,7 @@ export default function Login() {
             <input
               type="text"
               name="username"
-              className="bg-white appearance-none border-2 border-gray-400 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base mb-4"
+              className={`bg-white appearance-none border-2 rounded p-4 w-full border-gray-400 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base mb-4`}
               placeholder="Nombre de usuario..."
               onChange={handleChange}
               value={value.username}
