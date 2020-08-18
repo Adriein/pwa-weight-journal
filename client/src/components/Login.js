@@ -28,6 +28,7 @@ export default function Login() {
   const dispatch = useContext(DispatchContext);
   const { auth, getToken } = useContext(AuthContext);
   const [remember, setRemember] = useState(false);
+  const [open, setOpen] = useState(false);
   const [value, handleChange, reset] = useInputState({
     username: localStorage.getItem('username') || '',
     password: '',
@@ -43,7 +44,7 @@ export default function Login() {
   if (getToken()) {
     return <Redirect to="/logs" />;
   }
-  //console.log(Notification.requestPermission());
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const serviceWorker = await navigator.serviceWorker.ready;
@@ -72,19 +73,38 @@ export default function Login() {
       }
     }
   };
-  const handleRemember = () => {
-    setRemember(!remember);
+
+  const handleChangeUser = () => {
+    localStorage.removeItem('username');
+    setOpen(!open);
   };
-
-  const handleMenu = () => {
-
-  }
 
   return (
     <div className="h-screen flex flex-col justify-start items-center p-4">
+      <div className={`fixed z-20 inset-0 bg-black opacity-50 ${open? 'transition duration-1000 ease-in' : 'hidden'}`} onClick={() => setOpen(!open)}></div>
       <div className="absolute inset-x-0 top-0 h-64 bg-blue-500 shadow-md">
-        <MdMoreVert className="absolute top-0 right-0 w-8 h-8 text-blue-200 mt-3 mr-2" onClick={handleMenu}/>
-        <div className="w-10 h-10 bg-white top-0 right-0"></div>
+        <div
+          className={`absolute top-0 right-0 w-8 h-8 mt-3 mr-2 rounded-full z-20 ${
+            open ? 'transition duration-1000 ease-in bg-blue-200' : ''
+          }`}
+          onClick={() => setOpen(!open)}
+        >
+          <MdMoreVert
+            className={`w-8 h-8 text-blue-100 ${open ? 'text-blue-800' : ''}`}
+          />
+        </div>
+        <div
+          className={`absolute rounded w-32 h-8 bg-blue-100 top-0 right-0 p-2 mt-12 mr-3 flex-auto justify-center shadow-md ${
+            open ? 'z-20' : 'hidden'
+          }`}
+        >
+          <p
+            className="text-blue-800 text-xs font-semibold"
+            onClick={handleChangeUser}
+          >
+            Cambiar de usuario
+          </p>
+        </div>
       </div>
       <div className="z-10 flex flex-col items-center m-4">
         <div className="w-20 h-20 rounded-full bg-blue-200">
@@ -142,7 +162,7 @@ export default function Login() {
           <div className="absolute">
             <MdDone
               name="remember"
-              onClick={handleRemember}
+              onClick={() => setRemember(!remember)}
               className={`h-5 w-5 ${remember ? 'text-white' : 'opacity-0'}`}
             />
           </div>
