@@ -26,7 +26,7 @@ function urlBase64ToUint8Array(base64String) {
 
 export default function Login() {
   const dispatch = useContext(DispatchContext);
-  const { auth, getToken } = useContext(AuthContext);
+  const { getToken } = useContext(AuthContext);
   const [remember, setRemember] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, handleChange, reset] = useInputState({
@@ -83,7 +83,7 @@ export default function Login() {
     <div className="h-screen flex flex-col justify-start items-center p-4">
       <div
         className={`fixed z-20 inset-0 bg-black ${
-          open ? 'transition duration-500 ease-in opacity-50 ' : 'opacity-0'
+          open ? 'transition duration-500 ease-in opacity-50 ' : 'invisible opacity-0'
         }`}
         onClick={() => setOpen(!open)}
       ></div>
@@ -100,7 +100,7 @@ export default function Login() {
         </div>
         <div
           className={`absolute rounded w-32 h-8 bg-blue-100 top-0 right-0 p-2 mt-12 mr-3 flex-auto justify-center shadow-md ${
-            open ? 'transition duration-500 ease-in z-20 opacity-100' : 'opacity-0'
+            open ? 'transition duration-500 ease-in z-20 opacity-100' : 'invisible opacity-0'
           }`}
         >
           <p
