@@ -60,7 +60,7 @@ export default function Header({ currentPage, navigation, goBack }) {
           />
         </button>
         {open && (
-          <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1 mr-4">
+          <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1">
             <button className="w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">
               <p className="text-base">Perfil</p>
               <MdSettings className="ml-2" />
