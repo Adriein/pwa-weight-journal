@@ -1,60 +1,19 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { MdKeyboardArrowLeft, MdExitToApp, MdSettings } from 'react-icons/md';
 
 import { AuthContext } from '../context/AuthContext';
 import { DispatchContext } from '../context/AuthContext';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    backgroundColor: '#2368a2',
-    color: '#ffffff',
-  },
-  toolbar: {
-    flexWrap: 'wrap',
-  },
-  avatar: {
-    backgroundColor: '#1a4971',
-    color: '#ffffff',
-  },
-  exit: {
-    color: '#12283a',
-    marginRight: theme.spacing(1),
-  },
-}));
-
 export default function Header({ currentPage, navigation, goBack }) {
-  const classes = useStyles();
   const { auth } = useContext(AuthContext);
   const dispatch = useContext(DispatchContext);
   const getFirstLetter = (username) => {
     return username.split('')[0];
   };
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
-    handleClose();
     try {
       const response = await axios.post('api/auth/signout');
       dispatch({
@@ -69,55 +28,51 @@ export default function Header({ currentPage, navigation, goBack }) {
     }
   };
   return (
-    <AppBar
-      position="static"
-      color="default"
-      elevation={1}
-      className={classes.appBar}
-    >
-      <Toolbar className={classes.toolbar}>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="center"
-          direction="row"
-        >
-          {navigation && (
-            <IconButton onClick={goBack}>
-              <ArrowBackIosIcon style={{ color: '#f1f3f5' }} />
-            </IconButton>
-          )}
-          <Typography
-            variant="h5"
-            color="inherit"
-            noWrap
-            className={classes.toolbarTitle}
+    <header className="flex items-center p-2">
+      <div
+        className={`fixed z-10 inset-0 bg-black ${
+          open
+            ? 'transition duration-500 ease-in opacity-50 '
+            : 'invisible opacity-0'
+        }`}
+        onClick={() => setOpen(!open)}
+      ></div>
+      {goBack && (
+        <button className="focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none outline-none appearance-none w-10 h-10 rounded-full bg-gray-200 mr-10">
+          <MdKeyboardArrowLeft className="w-full h-full text-gray-500" />
+        </button>
+      )}
+      <h2 className="flex-grow font-bold text-3xl text-blue-900 ml-2">
+        {currentPage}
+      </h2>
+      <button
+        className={`relative z-20 focus:outline-none focus:appearance-none w-12 h-12 rounded-full overflow-hidden border-2 border-gray-400 ${
+          open &&
+          'outline-none border-3 border-blue-100 focus:outline-none focus:appearance-none'
+        }`}
+        onClick={() => setOpen(!open)}
+      >
+        <img
+          alt="Logo"
+          className="h-full w-full object-cover"
+          src="/api/static/2"
+        />
+      </button>
+      {open && (
+        <div className="absolute z-20 rounded-lg top-0 right-0 p-1 bg-gray-200 mt-16 mr-5 p-1">
+          <button className="w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">
+            <p className="text-base">Perfil</p>
+            <MdSettings className="ml-2" />
+          </button>
+          <button
+            className="w-full p-2 flex items-center focus:outline-none focus:appearance-none"
+            onClick={handleLogout}
           >
-            {currentPage}
-          </Typography>
-          <Avatar className={classes.avatar} onClick={handleClick}>
-            {getFirstLetter(localStorage.getItem('username') || auth.username)}
-          </Avatar>
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleLogout}>
-              <Typography
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.exit}
-              >
-                Salir
-              </Typography>
-              <ExitToAppIcon style={{ color: '#12283a' }} />
-            </MenuItem>
-          </Menu>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+            <p className="text-base">Salir</p>
+            <MdExitToApp className="ml-2" />
+          </button>
+        </div>
+      )}
+    </header>
   );
 }

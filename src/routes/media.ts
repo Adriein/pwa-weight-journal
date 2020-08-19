@@ -9,7 +9,7 @@ router.get('/static/:id', async (req, res) => {
   }
 
   if (req.params.id == '2') {
-    res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'family.png'));
+    res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'curri1.jpg'));
   }
 });
 
