@@ -206,7 +206,7 @@ export default function Login() {
         </div>
       </form>
       {auth.errormsg && (
-        <div className="flex items-center bg-red-200 p-1 mt-5 rounded">
+        <div className="flex items-center bg-red-200 p-1 mt-3 rounded">
           <MdErrorOutline className="text-red-500 mr-2" />
           <p className="text-red-600">Datos de acceso incorrectos</p>
         </div>
