@@ -5,8 +5,14 @@ import { DispatchContext } from '../context/AuthContext';
 import { Redirect } from 'react-router-dom';
 import useInputState from '../hooks/useInputState';
 
-import { MdDone, MdMoreVert, MdAccountCircle } from 'react-icons/md';
+import {
+  MdDone,
+  MdMoreVert,
+  MdAccountCircle,
+  MdErrorOutline,
+} from 'react-icons/md';
 import Copyright from './Copyright';
+import { ENV } from '../helpers';
 
 const PUBLIC_VAPID_KEY =
   'BAgfqXQf_bBXiPL7azqPUE7Qaaw2CZrLWpny6tTTVKQsMKZuIt7nJTQnMe4-wv0fem6OGZdhU7aXN4D3aws3dEU';
@@ -27,19 +33,15 @@ function urlBase64ToUint8Array(base64String) {
 export default function Login() {
   const dispatch = useContext(DispatchContext);
   const { auth, getToken } = useContext(AuthContext);
-  const [remember, setRemember] = useState(false);
+  const [remember, setRemember] = useState(
+    localStorage.getItem(ENV.username) !== null ? true : false
+  );
   const [open, setOpen] = useState(false);
   const [value, handleChange, reset] = useInputState({
-    username: localStorage.getItem('username') || '',
+    username: '',
     password: '',
     remember: false,
   });
-
-  useEffect(() => {
-    if (remember && value.username !== '') {
-      localStorage.setItem('username', value.username);
-    }
-  }, [remember, value.username]);
 
   if (getToken()) {
     return <Redirect to="/logs" />;
@@ -57,10 +59,16 @@ export default function Login() {
         applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
       });
       try {
+        if (remember && value.username !== '') {
+          localStorage.setItem(ENV.username, value.username);
+        }
         dispatch({
           type: 'LOGIN',
           payload: await axios.post('api/auth/signin', {
-            ...value,
+            ...{
+              ...value,
+              username: localStorage.getItem(ENV.username) || value.username,
+            },
             registration,
           }),
         });
@@ -75,7 +83,9 @@ export default function Login() {
   };
 
   const handleChangeUser = () => {
-    localStorage.removeItem('username');
+    reset();
+    localStorage.removeItem(ENV.username);
+    setRemember(false);
     setOpen(!open);
   };
 
@@ -123,9 +133,9 @@ export default function Login() {
         <p className="text-3xl text-white mt-4 font-semibold">WeLog</p>
       </div>
       <form className="z-10 bg-white p-8 rounded-lg shadow-lg mt-3 w-full">
-        {localStorage.getItem('username') !== null ? (
+        {localStorage.getItem(ENV.username) !== null ? (
           <p className="w-full text-xl text-blue-800 font-normal mb-4">
-            {`Bienvenido ${localStorage.getItem('username')}`}
+            {`Bienvenido ${localStorage.getItem(ENV.username)}`}
           </p>
         ) : (
           <>
@@ -136,7 +146,11 @@ export default function Login() {
             <input
               type="text"
               name="username"
-              className={`bg-white appearance-none border-2 rounded p-4 w-full border-gray-400 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base mb-4`}
+              className={`bg-white appearance-none border-2 rounded p-4 w-full text-base mb-4 ${
+                auth.errormsg
+                  ? 'border-red-500 text-red-500 bg-red-200 focus:outline-none focus:bg-red-200 focus:border-red-500'
+                  : 'border-gray-400 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800'
+              }`}
               placeholder="Nombre de usuario..."
               onChange={handleChange}
               value={value.username}
@@ -147,7 +161,11 @@ export default function Login() {
         <input
           type="password"
           name="password"
-          className="bg-white appearance-none border-2 border-gray-400 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
+          className={`bg-white appearance-none border-2 rounded p-4 w-full text-base mb-4 ${
+            auth.errormsg
+              ? 'border-red-500 text-red-500 bg-red-200 focus:outline-none focus:bg-red-200 focus:border-red-500'
+              : 'border-gray-400 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800'
+          }`}
           placeholder="Password"
           onChange={handleChange}
           value={value.password}
@@ -187,6 +205,12 @@ export default function Login() {
           </button>
         </div>
       </form>
+      {auth.errormsg && (
+        <div className="flex items-center bg-red-200 p-1 mt-5 rounded">
+          <MdErrorOutline className="text-red-500 mr-2" />
+          <p className="text-red-600">Datos de acceso incorrectos</p>
+        </div>
+      )}
       <div className="flex items-end flex-grow">
         <Copyright />
       </div>

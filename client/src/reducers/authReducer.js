@@ -10,6 +10,11 @@ const reducer = (state, action) => {
         username: '',
         errormsg: undefined,
       };
+    case 'LOGIN_ERROR':
+      return {
+        username: '',
+        errormsg: action.error,
+      };
     default:
       return state;
   }

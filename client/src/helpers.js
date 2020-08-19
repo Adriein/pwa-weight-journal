@@ -17,3 +17,7 @@ export const traduceCategories = (category) => {
       return exercice;
     });
   };
+
+  export const ENV = {
+    username: 'username-welog'
+  }
