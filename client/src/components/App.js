@@ -10,6 +10,7 @@ import RegisterBook from './RegisterBook';
 import History from './History';
 import ExercicesForm from './ExercicesForm';
 import CategoryExercices from './CategoryExercices';
+import Home from './Home';
 
 function App() {
   return (
@@ -17,8 +18,13 @@ function App() {
       <AuthProvider>
         <Route path="/" exact component={Login} />
         <ExerciceProvider>
+          <ProtectedRoute path="/home" exact component={Home} />
           <ProtectedRoute path="/logs" exact component={RegisterBook} />
-          <ProtectedRoute path="/category" exact component={CategoryExercices} />
+          <ProtectedRoute
+            path="/category"
+            exact
+            component={CategoryExercices}
+          />
           <LogsProvider>
             <ProtectedRoute path="/history" exact component={History} />
           </LogsProvider>

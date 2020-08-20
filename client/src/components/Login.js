@@ -44,7 +44,7 @@ export default function Login() {
   });
 
   if (getToken()) {
-    return <Redirect to="/logs" />;
+    return <Redirect to="/home" />;
   }
 
   const handleSubmit = async (e) => {

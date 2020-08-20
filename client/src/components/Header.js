@@ -28,7 +28,7 @@ export default function Header({ currentPage, navigation, goBack }) {
     }
   };
   return (
-    <header className="flex items-center p-4 bg-white">
+    <header className="flex items-center px-4 py-2 bg-white">
       <div
         className={`fixed z-10 inset-0 bg-black ${
           open
