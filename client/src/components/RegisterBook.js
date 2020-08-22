@@ -120,10 +120,13 @@ export default function RegisterBook() {
                     ref={targetRef}
                     key={category}
                   >
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
-                      <MdSettings className="h-full w-full object-cover text-gray-600" />
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={`/api/static/${category}`}
+                        alt="training"
+                      />
                     </div>
-
                     <div className="p-1 mt-5">
                       <h4 className="text-sm font-semibold">
                         {traduceCategories(category)}

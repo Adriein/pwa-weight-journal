@@ -66,7 +66,7 @@ export default function Header({ currentPage, navigation, goBack }) {
           <img
             alt="Logo"
             className="h-full w-full object-cover"
-            src="/api/static/2"
+            src="/api/static/profile"
           />
         </motion.button>
         {open && (

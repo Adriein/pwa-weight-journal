@@ -54,7 +54,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full overflow-hidden">
                       <img
                         className="h-full w-full object-cover"
-                        src={`/api/static/${index + 3}`}
+                        src={`/api/static/${link}`}
                         alt="training"
                       />
                     </div>

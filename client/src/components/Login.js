@@ -136,7 +136,7 @@ export default function Login() {
           className="w-20 h-20 rounded-full bg-blue-200"
         >
           <motion.div initial={{ y: -100 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 100 }}>
-            <img alt="Logo" className="p-2 object-cover" src="/api/static/1" />
+            <img alt="Logo" className="p-2 object-cover" src="/api/static/logo" />
           </motion.div>
         </motion.div>
         <p className="text-3xl text-white mt-4 font-semibold">WeLog</p>
