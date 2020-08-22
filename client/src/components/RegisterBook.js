@@ -103,13 +103,19 @@ export default function RegisterBook() {
         )}
         {isStarted && (
           <div className="w-full">
-            <p>Selecciona el ejercicio</p>
-            <SearchBar />
+            <p className="text-xl text-blue-500 mb-3 font-medium">
+              Selecciona el ejercicio
+            </p>
+            <p className="text-base text-gray-800 mb-3">Buscar por nombre</p>
+            <div className="mb-3">
+              <SearchBar />
+            </div>
+            <p className="text-base text-gray-800 mb-3">Categorias</p>
             <Carousel>
               {exercices.categories.map((category) => {
                 return (
                   <motion.div
-                    className={`bg-gray-400 w-48 h-40 mr-5 rounded-md p-2 flex-col`}
+                    className={`bg-gray-400 w-48 mr-5 rounded-md p-2 flex-col`}
                     whileTap={{ scale: 1.1 }}
                     ref={targetRef}
                     key={category}
@@ -119,7 +125,9 @@ export default function RegisterBook() {
                     </div>
 
                     <div className="p-1 mt-5">
-                      <h4 className="text-sm font-semibold">{category}</h4>
+                      <h4 className="text-sm font-semibold">
+                        {traduceCategories(category)}
+                      </h4>
                     </div>
                   </motion.div>
                 );

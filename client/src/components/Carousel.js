@@ -14,7 +14,7 @@ export default function Carousel({ children }) {
 
   return (
     <motion.div
-      className="w-full h-48 flex overflow-hidden p-4"
+      className="w-full h-48 flex overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}

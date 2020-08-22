@@ -32,42 +32,44 @@ export default function Home() {
     <div>
       <Header currentPage={'Inicio'} />
       <div>
-        <Carousel>
-          {[
-            ['logs', 'blue'],
-            ['graphs', 'green'],
-            ['settings', 'yellow'],
-          ].map(([link, color], index) => {
-            return (
-              <motion.div
-                className={`bg-${color}-400 w-48 h-40 mr-5 rounded-md p-2 flex-col`}
-                onClick={navigate(link)}
-                whileTap={{ scale: 1.1 }}
-                ref={targetRef}
-              >
-                {index === 2 ? (
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
-                    <MdSettings className="h-full w-full object-cover text-yellow-600" />
+        <div className="p-4">
+          <Carousel>
+            {[
+              ['logs', 'blue'],
+              ['graphs', 'green'],
+              ['settings', 'yellow'],
+            ].map(([link, color], index) => {
+              return (
+                <motion.div
+                  className={`bg-${color}-400 w-48 h-40 mr-5 rounded-md p-2 flex-col`}
+                  onClick={navigate(link)}
+                  whileTap={{ scale: 1.1 }}
+                  ref={targetRef}
+                >
+                  {index === 2 ? (
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                      <MdSettings className="h-full w-full object-cover text-yellow-600" />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={`/api/static/${index + 3}`}
+                        alt="training"
+                      />
+                    </div>
+                  )}
+                  <div className="p-1 mt-5">
+                    <h4 className="text-sm font-semibold">
+                      {CONTENT[link].title}
+                    </h4>
+                    <p className="text-xs">{CONTENT[link].legend}</p>
                   </div>
-                ) : (
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <img
-                      className="h-full w-full object-cover"
-                      src={`/api/static/${index + 3}`}
-                      alt="training"
-                    />
-                  </div>
-                )}
-                <div className="p-1 mt-5">
-                  <h4 className="text-sm font-semibold">
-                    {CONTENT[link].title}
-                  </h4>
-                  <p className="text-xs">{CONTENT[link].legend}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </Carousel>
+                </motion.div>
+              );
+            })}
+          </Carousel>
+        </div>
       </div>
       <Navigation active={'home'} />
     </div>
