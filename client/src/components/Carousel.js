@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function Carousel() {
-  console.log(window.innerWidth);
   return (
     <div className="w-full h-48 flex overflow-hidden p-4">
       <motion.div
@@ -11,7 +10,7 @@ export default function Carousel() {
         dragConstraints={{ left: -window.innerWidth, right: 0 }}
         dragElastic={0.2}
       >
-        <div className="bg-blue-400 w-40 h-40 mr-5 rounded-md p-1 flex-col">
+        <div className="bg-blue-400 w-48 h-40 mr-5 rounded-md p-2 flex-col">
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
               className="h-full w-full object-cover"
@@ -19,8 +18,8 @@ export default function Carousel() {
               alt="home gym"
             />
           </div>
-          <div className="p-1 flex-grow">
-            <h4 className="text-sm">Inicia tu entrenamiento</h4>
+          <div className="p-1 mt-5">
+            <h4 className="text-sm font-semibold">Inicia tu entrenamiento</h4>
             <p className="text-xs">Empieza a medir la calidad de tus entrenos</p>
           </div>
         </div>
