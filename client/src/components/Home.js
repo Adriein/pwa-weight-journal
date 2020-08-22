@@ -3,6 +3,7 @@ import { ENV } from '../helpers';
 
 import Header from './Header';
 import Navigation from './Navigation';
+import Carousel from './Carousel';
 
 export default function Home() {
   return (
@@ -16,9 +17,10 @@ export default function Home() {
           </p>
         </div> */}
 
-        <img src="/api/static/3" alt="home gym" />
+        {/* <img src="/api/static/3" alt="home gym" /> */}
+        <Carousel />
       </div>
-      <Navigation active={'home'}/>
+      <Navigation active={'home'} />
     </div>
   );
 }

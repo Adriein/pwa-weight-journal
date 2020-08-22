@@ -9,7 +9,7 @@ function Button({ id, action, children, active }) {
     <motion.button
       whileTap={{ scale: 0.8 }}
       id={id}
-      className={`focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none active:border-none p-1 flex-grow flex-column items-center justify-center w-40 ${
+      className={`focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none active:border-none p-1 flex-grow items-center justify-center w-40 ${
         active === id
           ? 'text-blue-800 font-medium'
           : 'text-gray-500 font-normal'
