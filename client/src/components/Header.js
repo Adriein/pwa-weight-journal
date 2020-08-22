@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import { MdKeyboardArrowLeft, MdExitToApp, MdSettings } from 'react-icons/md';
 
 import { AuthContext } from '../context/AuthContext';
@@ -42,11 +43,20 @@ export default function Header({ currentPage, navigation, goBack }) {
           <MdKeyboardArrowLeft className="w-full h-full text-gray-500" />
         </button>
       )}
-      <h2 className="flex-grow font-bold text-3xl text-blue-700">
+      <motion.h2
+        initial={{ x: -100 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 1, type: 'tween' }}
+        className="flex-grow font-bold text-3xl text-blue-700"
+      >
         {currentPage}
-      </h2>
+      </motion.h2>
       <div className="relative z-20 ">
-        <button
+        <motion.button
+          initial={{ x: 100 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1, type: 'tween' }}
+          whileTap={{ scale: 0.8 }}
           className={`focus:outline-none focus:appearance-none w-12 h-12 rounded-full overflow-hidden border-2 border-gray-400 ${
             open &&
             'outline-none border-3 border-blue-100 focus:outline-none focus:appearance-none'
@@ -58,7 +68,7 @@ export default function Header({ currentPage, navigation, goBack }) {
             className="h-full w-full object-cover"
             src="/api/static/2"
           />
-        </button>
+        </motion.button>
         {open && (
           <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1">
             <button className="w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">

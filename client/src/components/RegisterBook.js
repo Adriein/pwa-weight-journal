@@ -233,7 +233,7 @@ export default function RegisterBook() {
       </Container>
       <footer className={classes.footer}>
         <Box mt={4}>
-          <Navigation settings={0} />
+          <Navigation active={'logs'} />
         </Box>
       </footer>
     </div>

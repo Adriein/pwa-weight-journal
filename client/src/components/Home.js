@@ -18,7 +18,7 @@ export default function Home() {
 
         <img src="/api/static/3" alt="home gym" />
       </div>
-      <Navigation />
+      <Navigation active={'home'}/>
     </div>
   );
 }

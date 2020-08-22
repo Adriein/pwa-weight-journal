@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+
 import { AuthContext } from '../context/AuthContext';
 import { DispatchContext } from '../context/AuthContext';
 import { Redirect } from 'react-router-dom';
@@ -127,9 +129,16 @@ export default function Login() {
         </div>
       </div>
       <div className="z-10 flex flex-col items-center m-4">
-        <div className="w-20 h-20 rounded-full bg-blue-200">
-          <img alt="Logo" className="p-2 object-cover" src="/api/static/1" />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 4 }}
+          className="w-20 h-20 rounded-full bg-blue-200"
+        >
+          <motion.div initial={{ y: -100 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 100 }}>
+            <img alt="Logo" className="p-2 object-cover" src="/api/static/1" />
+          </motion.div>
+        </motion.div>
         <p className="text-3xl text-white mt-4 font-semibold">WeLog</p>
       </div>
       <form className="z-10 bg-white p-8 rounded-lg shadow-lg mt-3 w-full">

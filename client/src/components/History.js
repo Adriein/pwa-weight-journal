@@ -94,7 +94,7 @@ export default function History() {
       </Container>
       <footer className={classes.footer}>
         <Box mt={8}>
-          <Navigation settings={2} />
+          <Navigation active={'history'} />
         </Box>
       </footer>
     </div>
