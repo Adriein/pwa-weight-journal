@@ -101,7 +101,7 @@ export default function RegisterBook() {
             Iniciar Entreno
           </button>
         )}
-        {isStarted && (
+        {isStarted && !exercices.selected && (
           <div className="w-full">
             <p className="text-xl text-blue-500 mb-3 font-medium">
               Selecciona el ejercicio
@@ -115,14 +115,16 @@ export default function RegisterBook() {
               {exercices.categories.map((category) => {
                 return (
                   <motion.div
-                    className={`bg-gray-400 w-48 mr-5 rounded-md p-2 flex-col`}
-                    whileTap={{ scale: 1.1 }}
+                    className={`bg-gray-300 w-48 mr-5 rounded-md p-2 flex-col`}
                     ref={targetRef}
                     key={category}
                   >
                     <div className="w-12 h-12 rounded-full overflow-hidden">
-                      <img
+                      <motion.img
                         className="h-full w-full object-cover"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 2 }}
                         src={`/api/static/${category}`}
                         alt="training"
                       />
@@ -136,6 +138,13 @@ export default function RegisterBook() {
                 );
               })}
             </Carousel>
+          </div>
+        )}
+        {exercices.selected && (
+          <div className="w-full">
+            <div>
+
+            </div>
           </div>
         )}
       </div>

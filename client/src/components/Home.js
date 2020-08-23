@@ -45,6 +45,7 @@ export default function Home() {
                   onClick={navigate(link)}
                   whileTap={{ scale: 1.1 }}
                   ref={targetRef}
+                  key={link}
                 >
                   {index === 2 ? (
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
