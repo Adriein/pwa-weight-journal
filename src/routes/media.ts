@@ -1,36 +1,25 @@
 import express, { Router } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { NotFound } from '../core/errors/NotFound';
 
 const router: Router = express.Router();
-const dirPath = ['..', '..', 'src', 'static'];
-const staticDir = fs.readdirSync(path.resolve(__dirname, ...dirPath));
-const getImg = (param: string) => {
-  return staticDir.find((imgName) => imgName.includes(param));
+const dirPath = path.resolve(__dirname, '..', '..', 'src', 'static');
+
+const getImg = (param: string, dir: string[]) => {
+  return dir.find((imgName) => imgName.includes(param));
 };
 
-
 router.get('/static/:item', async (req, res) => {
-  dirPath.push(getImg('arm')!);
-  res.sendFile(
-    path.resolve(__dirname, ...dirPath)
-  );
+  //Read dir with static imgs
+  const staticDir = fs.readdirSync(dirPath);
+  //Get the concrete img from the static dir
+  const item = getImg(req.params.item, staticDir);
 
-  // if (req.params.item == '1') {
-  //   res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'logo.png'));
-  // }
+  if (item === undefined) throw new NotFound('Img not found');
 
-  // if (req.params.id == '2') {
-  //   res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'curri1.jpg'));
-  // }
+  res.sendFile(path.resolve(dirPath, item));
 
-  // if (req.params.id == '3') {
-  //   res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'home.jpg'));
-  // }
-
-  // if (req.params.id == '4') {
-  //   res.sendFile(path.resolve(__dirname, '..','..', 'src', 'static', 'graph.jpg'));
-  // }
 });
 
 export { router as media };
