@@ -87,7 +87,7 @@ export default function RegisterBook() {
   // };
   const [isStarted, setStarted] = useState(false);
   const targetRef = useRef();
-
+  console.log(exercices.selected)
   return (
     <div>
       <Header currentPage={'Entreno'} />
@@ -141,7 +141,7 @@ export default function RegisterBook() {
           </div>
         )}
         {exercices.selected && (
-          <div className="w-full">
+          <div className="w-full bg-gray-500">
             <div>
 
             </div>

@@ -1,39 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import axios from 'axios';
-
-import Popover from '@material-ui/core/Popover';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
 
-import useDebounce from '../hooks/useDebounce';
-
-const useStyles = makeStyles((theme) => ({
-  panel: {
-    width: '340px',
-    padding: theme.spacing(1, 1, 1, 1),
-    backgroundColor: '#ffffff',
-  },
-}));
-
 export default function SearchBar() {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  const [debouncedValue, setDebouncedValue] = useState('');
+  const ref = useRef();
 
-  const searchTerm = useDebounce(value, 500);
-  const exerciceState = useContext(ExerciceContext);
+  const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
 
   useEffect(() => {
-    if (searchTerm !== '' && searchTerm !== undefined) {
+    const timerId = setTimeout(() => {
+      setDebouncedValue(value);
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [value]);
+
+  useEffect(() => {
+    if (debouncedValue !== '' && debouncedValue !== undefined) {
       exerciceDispatcher({
         type: 'LOADING',
       });
@@ -42,7 +33,7 @@ export default function SearchBar() {
         try {
           exerciceDispatcher({
             type: 'FETCH_EXERCICES',
-            payload: (await axios.get(`/api/exercices/${searchTerm}`)).data,
+            payload: (await axios.get(`/api/exercices/${debouncedValue}`)).data,
           });
         } catch (error) {
           exerciceDispatcher({
@@ -52,11 +43,25 @@ export default function SearchBar() {
         }
       })();
     }
-  }, [searchTerm]);
+  }, [debouncedValue]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    const closeDropdown = (event) => {
+      if (ref.current.contains(event.target)) {
+        return;
+      }
+
+      setOpen(false);
+    };
+
+    document.body.addEventListener('click', closeDropdown);
+
+    return () => {
+      document.body.removeEventListener('click', closeDropdown);
+    };
+
+  }, []);
+
 
   const handleSelect = (exercice) => (event) => {
     exerciceDispatcher({
@@ -72,57 +77,27 @@ export default function SearchBar() {
   };
 
   return (
-    <>
+    <div ref={ref} className="relative">
       <input
         id="search-bar"
         className="bg-white appearance-none border-2 border-gray-300 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
         type="text"
         value={value}
         onChange={handleChange}
+        autoComplete="off"
         placeholder="Buscar..."
       />
-
-      <Popover
-        id="sub-menu"
-        open={open}
-        anchorEl={document.getElementById('search-bar')}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        {exerciceState.loading ? (
-          <Grid container justify="center" className={classes.panel}>
-            <CircularProgress />
-          </Grid>
-        ) : (
-          <List aria-label="exercices display" className={classes.panel}>
-            {exerciceState.error ? (
-              <ListItem>
-                <ListItemText primary={exerciceState.error} />
-              </ListItem>
-            ) : (
-              exerciceState.exercices.map((exercice, index) => {
-                return (
-                  <React.Fragment key={exercice.id}>
-                    <ListItem button onClick={handleSelect(exercice)}>
-                      <ListItemText primary={exercice.name} />
-                    </ListItem>
-                    {index !== exerciceState.exercices.length - 1 ? (
-                      <Divider />
-                    ) : null}
-                  </React.Fragment>
-                );
-              })
-            )}
-          </List>
-        )}
-      </Popover>
-    </>
+      {open && (
+        <div className="absolute z-10 w-full flex flex-col bg-white appearance-none border-r border-b border-l rounded rounded-t-none border-gray-400 shadow-lg p-4 text-black leading-tight text-base mt-1">
+          {exercices.exercices.map((exercice) => {
+            return (
+              <p key={exercice.name} className="p-2" onClick={handleSelect(exercice.id)}>
+                {exercice.name}
+              </p>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
