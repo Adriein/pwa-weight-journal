@@ -32,7 +32,7 @@ export default function Header({ currentPage, navigation }) {
   };
 
   return (
-    <header className="flex items-center px-4 py-2 bg-white">
+    <header className="flex items-center px-4 py-2 bg-white overflow-x-hidden overflow-y-visible">
       <div
         className={`fixed z-10 inset-0 bg-black ${
           open
@@ -47,14 +47,14 @@ export default function Header({ currentPage, navigation }) {
         </button>
       )}
       <motion.h2
-        initial={{ x: -100 }}
+        initial={{ x: "-100vw" }}
         animate={{ x: 0 }}
         transition={{ duration: 1, type: 'tween' }}
         className="flex-grow font-bold text-3xl text-blue-700"
       >
         {currentPage}
       </motion.h2>
-      <div className="relative z-20 ">
+      <div className="z-20 ">
         <motion.button
           initial={{ x: 100 }}
           animate={{ x: 0 }}
@@ -73,8 +73,8 @@ export default function Header({ currentPage, navigation }) {
           />
         </motion.button>
         {open && (
-          <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1">
-            <button className="w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">
+          <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1 mr-4">
+            <button className="outline-none w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">
               <p className="text-base">Perfil</p>
               <MdSettings className="ml-2" />
             </button>

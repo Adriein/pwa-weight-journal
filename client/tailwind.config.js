@@ -710,7 +710,7 @@ module.exports = {
     objectPosition: ['responsive'],
     opacity: ['responsive', 'hover', 'focus'],
     order: ['responsive'],
-    outline: ['responsive', 'focus', 'checked'],
+    outline: ['responsive', 'focus', 'checked', 'hover', 'active'],
     overflow: ['responsive'],
     overscrollBehavior: ['responsive'],
     padding: ['responsive'],
