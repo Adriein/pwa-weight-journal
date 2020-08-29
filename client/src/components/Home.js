@@ -8,6 +8,30 @@ import Header from './Header';
 import Navigation from './Navigation';
 import Carousel from './Carousel';
 
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: '-100vw',
+    scale: 0.8,
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+  },
+  out: {
+    opacity: 0,
+    x: '100vw',
+    scale: 1.2,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 1
+};
+
 export default function Home() {
   const history = useHistory();
   const targetRef = useRef();
@@ -31,7 +55,13 @@ export default function Home() {
   return (
     <div>
       <Header currentPage={'Inicio'} />
-      <div>
+      <motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
         <div className="p-4">
           <Carousel>
             {[
@@ -71,7 +101,7 @@ export default function Home() {
             })}
           </Carousel>
         </div>
-      </div>
+      </motion.div>
       <Navigation active={'home'} />
     </div>
   );

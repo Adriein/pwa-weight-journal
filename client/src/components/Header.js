@@ -49,7 +49,7 @@ export default function Header({ currentPage, navigation }) {
       <motion.h2
         initial={{ x: "-100vw" }}
         animate={{ x: 0 }}
-        transition={{ duration: 1, type: 'tween' }}
+        transition={{ duration: 0.5, type: 'tween' }}
         className="flex-grow font-bold text-3xl text-blue-700"
       >
         {currentPage}
@@ -58,7 +58,7 @@ export default function Header({ currentPage, navigation }) {
         <motion.button
           initial={{ x: 100 }}
           animate={{ x: 0 }}
-          transition={{ duration: 1, type: 'tween' }}
+          transition={{ duration: 0.5, type: 'tween' }}
           whileTap={{ scale: 0.8 }}
           className={`focus:outline-none focus:appearance-none w-12 h-12 rounded-full overflow-hidden border-2 border-gray-400 ${
             open &&
