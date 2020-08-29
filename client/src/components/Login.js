@@ -143,7 +143,7 @@ export default function Login() {
       </div>
       <form className="z-10 bg-white p-8 rounded-lg shadow-lg mt-3 w-full">
         {localStorage.getItem(ENV.username) !== null ? (
-          <p className="w-full text-xl text-blue-800 font-normal mb-16">
+          <p className="w-full text-2xl text-blue-800 font-normal mb-8">
             {`Bienvenido ${localStorage.getItem(ENV.username)}`}
           </p>
         ) : (
