@@ -2,16 +2,18 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { MdKeyboardArrowLeft, MdExitToApp, MdSettings } from 'react-icons/md';
+import { useHistory } from 'react-router-dom';
 
 import { AuthContext } from '../context/AuthContext';
 import { DispatchContext } from '../context/AuthContext';
 
-export default function Header({ currentPage, navigation, goBack }) {
+export default function Header({ currentPage, navigation }) {
   const { auth } = useContext(AuthContext);
   const dispatch = useContext(DispatchContext);
   const getFirstLetter = (username) => {
     return username.split('')[0];
   };
+  const history = useHistory();
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -28,6 +30,7 @@ export default function Header({ currentPage, navigation, goBack }) {
       });
     }
   };
+
   return (
     <header className="flex items-center px-4 py-2 bg-white">
       <div
@@ -40,7 +43,7 @@ export default function Header({ currentPage, navigation, goBack }) {
       ></div>
       {navigation && (
         <button className="focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none outline-none appearance-none w-10 h-10 rounded-full bg-gray-200 mr-5">
-          <MdKeyboardArrowLeft className="w-full h-full text-gray-500" />
+          <MdKeyboardArrowLeft className="w-full h-full text-gray-500" onClick={history.goBack}/>
         </button>
       )}
       <motion.h2

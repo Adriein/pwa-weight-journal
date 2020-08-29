@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimateSharedLayout } from 'framer-motion';
 
 export default function Carousel({ children }) {
   const [maxWidth, setMaxWidth] = useState(0);
@@ -27,7 +27,6 @@ export default function Carousel({ children }) {
       >
         {children}
       </motion.div>
-      <motion.div className="hidden">screen 2</motion.div>
     </motion.div>
   );
 }

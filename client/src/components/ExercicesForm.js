@@ -23,7 +23,6 @@ import Fade from '@material-ui/core/Fade';
 import Box from '@material-ui/core/Box';
 
 import { useHistory } from 'react-router-dom';
-import InfoCard from './InfoCard';
 import Navigation from './Navigation';
 
 const useStyles = makeStyles((theme) => ({
@@ -144,12 +143,7 @@ export default function ExercicesForm() {
           <Fade in={exercices.error ? true : false} timeout={1000}>
             <Grid container>
               <Grid item xs={12}>
-                <InfoCard
-                  message={exercices.error}
-                  button={'Ok'}
-                  action={clear}
-                  error={true}
-                />
+              
               </Grid>
             </Grid>
           </Fade>
