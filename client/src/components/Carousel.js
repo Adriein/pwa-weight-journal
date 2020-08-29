@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimateSharedLayout } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function Carousel({ children }) {
   const [maxWidth, setMaxWidth] = useState(0);
@@ -10,7 +10,7 @@ export default function Carousel({ children }) {
 
   useEffect(() => {
     setMaxWidth(setBoundary(children));
-  }, []);
+  }, [children]);
 
   return (
     <motion.div

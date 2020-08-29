@@ -11,6 +11,7 @@ const reducer = (state, action) => {
           selected: undefined,
           categories: [...state.categories],
           exercicesByCategory: { category: 'Cargando...', exercices: [] },
+          training: state.training,
         };
       }
       return {
@@ -20,6 +21,7 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
       };
     case 'LOADING':
       return {
@@ -29,6 +31,7 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
       };
     case 'FETCH_ERROR':
       return {
@@ -38,6 +41,7 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
       };
     case 'SELECT_EXERCICE':
       return {
@@ -47,6 +51,11 @@ const reducer = (state, action) => {
         selected: action.payload,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: {
+          isStarted: true,
+          exercices: [...state.training.exercices, action.payload],
+          name: '',
+        },
       };
     case 'DISCARD_SELECTION':
       return {
@@ -56,6 +65,7 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
       };
     case 'FETCH_CATEGORIES':
       return {
@@ -65,6 +75,7 @@ const reducer = (state, action) => {
         selected: state.selected,
         categories: [...action.payload],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
       };
     case 'FETCH_CATEGORY':
       return {
@@ -74,6 +85,7 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: action.payload,
+        training: state.training,
       };
     case 'RESET':
       return {
@@ -83,6 +95,21 @@ const reducer = (state, action) => {
         selected: undefined,
         categories: [...state.categories],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: state.training,
+      };
+    case 'START_TRAINING':
+      return {
+        exercices: [],
+        error: undefined,
+        loading: false,
+        selected: undefined,
+        categories: [...state.categories],
+        exercicesByCategory: { category: 'Cargando...', exercices: [] },
+        training: {
+          isStarted: true,
+          exercices: [],
+          name: '',
+        },
       };
     default:
       return state;
