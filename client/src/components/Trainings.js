@@ -1,8 +1,14 @@
-import React, { useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
 
-import { MdImage, MdLens, MdExpandMore } from 'react-icons/md';
+import {
+  MdImage,
+  MdDelete,
+  MdExpandMore,
+  MdModeEdit,
+  MdEdit,
+} from 'react-icons/md';
 
 import Header from './Header';
 import Navigation from './Navigation';
@@ -24,6 +30,18 @@ const pageVariants = {
     opacity: 0,
     x: '100vw',
     scale: 1.2,
+  },
+};
+
+const optionsVariant = {
+  initial: {
+    display: 'hidden',
+  },
+  in: {
+    x: 0,
+  },
+  out: {
+    display: 'hidden',
   },
 };
 
@@ -102,13 +120,17 @@ const trainings = [
 export default function Trainings() {
   const history = useHistory();
   const targetRef = useRef();
+  const [options, setOptions] = useState({ visible: false, id: undefined });
   useEffect(() => {
     console.log('fetch of trainings');
   }, []);
 
-  
-  const enableOptions = (training) => (event) => {
-    console.log(training);
+  const enableOptions = (training) => () => {
+    setOptions({ visible: true, id: training.id });
+  };
+
+  const disableOptions = (training) => () => {
+    setOptions({ visible: false, id: training.id });
   };
 
   const enableDetails = (training) => (event) => {
@@ -129,7 +151,7 @@ export default function Trainings() {
         <div className="p-4 h-full mb-16">
           {trainings.map((training) => {
             return (
-              <div className="w-full flex py-4" key={training.id}>
+              <div className="w-full flex py-4 relative" key={training.id}>
                 <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
                   <MdImage className="h-full w-full object-cover text-blue-800" />
                 </div>
@@ -142,11 +164,46 @@ export default function Trainings() {
                   <div className="ml-2">descripcion</div>
                 </div>
                 <div
-                  className="w-6 h-6 rounded-full overflow-hidden bg-white"
+                  className="w-8 h-8 rounded-full overflow-hidden bg-white"
                   onClick={enableOptions(training)}
                 >
-                  <MdExpandMore className="h-full w-full object-cover text-blue-800" />
+                  <MdExpandMore className="h-full w-full object-cover text-gray-500" />
                 </div>
+                <motion.div
+                  animate={
+                    options.visible && options.id === training.id ? 'in' : 'out'
+                  }
+                  variants={optionsVariant}
+                  transition={pageTransition}
+                  className={`absolute bg-gray-200 p-1 rounded inset-0 flex ${
+                    options.visible && options.id === training.id
+                      ? ''
+                      : 'hidden'
+                  }`}
+                >
+                  <div className="flex-grow flex items-center justify-center">
+                    <div
+                      className="w-10 h-10 rounded-full overflow-hidden p-1  bg-gray-200 mr-5"
+                      onClick={enableOptions(training)}
+                    >
+                      <MdEdit className="h-full w-full object-cover text-blue-800" />
+                    </div>
+                    <div
+                      className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5"
+                      onClick={enableOptions(training)}
+                    >
+                      <MdDelete className="h-full w-full object-cover text-red-600" />
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="w-8 h-8 rounded-full overflow-hidden bg-white border-2 border-blue-800"
+                      onClick={disableOptions(training)}
+                    >
+                      <MdExpandMore className="h-full w-full object-cover text-blue-800" />
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             );
           })}

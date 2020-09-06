@@ -67,7 +67,7 @@ export default function Header({ currentPage, navigation }) {
           onClick={() => setOpen(!open)}
         >
           <img
-            alt="Logo"
+            alt="Profile Pic"
             className="h-full w-full object-cover"
             src="/api/static/profile"
           />
