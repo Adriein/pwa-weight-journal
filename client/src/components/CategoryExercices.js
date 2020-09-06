@@ -42,7 +42,7 @@ export default function CategoryExercices() {
   };
 
   const selectExercice = (exercice) => () => {
-    history.push('/logs');
+    history.push('/training');
     exerciceDispatcher({
       type: 'SELECT_EXERCICE',
       payload: exercice,
@@ -50,7 +50,7 @@ export default function CategoryExercices() {
   };
 
   const goBack = () => {
-    history.push('/logs');
+    history.push('/training');
   };
 
   return (

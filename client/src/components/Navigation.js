@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
 
-import { MdHome, MdBookmark, MdHistory } from 'react-icons/md';
+import { MdHome, MdBookmark, MdHistory, MdAssignment } from 'react-icons/md';
 
 function Button({ id, action, children, active }) {
   return (
@@ -28,8 +28,8 @@ export default function Navigation({ active }) {
   };
 
   return (
-    <footer className="p-2 flex bg-white absolute bottom-0 w-full shadow-upper h-16">
-      {['home', 'logs', 'history'].map((id) => {
+    <footer className="p-2 flex bg-white fixed bottom-0 w-full shadow-upper h-16">
+      {['home', 'logs', 'trainings', 'history'].map((id) => {
         return (
           <Button id={id} action={navigate} key={id} active={active}>
             {id === 'home' && (
@@ -48,6 +48,12 @@ export default function Navigation({ active }) {
               <div>
                 <MdHistory className="h-5 w-5 inline" />
                 <p className="text-sm">Historial</p>
+              </div>
+            )}
+            {id === 'trainings' && (
+              <div>
+                <MdAssignment className="h-5 w-5 inline" />
+                <p className="text-sm">Entrenos</p>
               </div>
             )}
           </Button>

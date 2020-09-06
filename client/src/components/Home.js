@@ -40,7 +40,7 @@ export default function Home() {
   };
   const CONTENT = {
     logs: {
-      title: 'Inicia tu entrenamiento',
+      title: 'Crea tu entrenamiento',
       legend: 'Empieza a medir la calidad de tus entrenos',
     },
     graphs: {
