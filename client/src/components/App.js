@@ -8,6 +8,7 @@ import Login from './Login';
 import CategoryExercices from './CategoryExercices';
 import Home from './Home';
 import Trainings from './Trainings';
+import Form from './Form';
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
             path="/trainings"
             exact
             component={Trainings}
+          />
+          <ProtectedRoute
+            path="/form"
+            exact
+            component={Form}
           />
         </ExerciceProvider>
       </AuthProvider>

@@ -2,13 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
 
-import {
-  MdImage,
-  MdDelete,
-  MdExpandMore,
-  MdModeEdit,
-  MdEdit,
-} from 'react-icons/md';
+import { MdImage, MdDelete, MdExpandMore, MdAdd, MdEdit } from 'react-icons/md';
 
 import Header from './Header';
 import Navigation from './Navigation';
@@ -128,55 +122,41 @@ export default function Trainings() {
   return (
     <div className="h-screen">
       <Header currentPage={'Entrenos'} />
-      <AnimateSharedLayout>
-        <motion.div
-          layout
-          initial="initial"
-          animate="in"
-          exit="out"
-          variants={pageVariants}
-          transition={pageTransition}
-          className="relative"
-        >
-          <div className="p-4 h-full mb-16">
+      <motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        <div className="flex w-full px-4 pt-2 justify-center">
+          <button
+            className="w-12 h-12 rounded-full overflow-hidden bg-green-200 focus:outline-none focus:appearance-none "
+            onClick={() =>
+              history.push('/form', { from: history.location.pathname })
+            }
+          >
+            <MdAdd className="h-full w-full object-cover text-green-700" />
+          </button>
+        </div>
+
+        <AnimateSharedLayout>
+          <ul className="p-4 h-full mb-16">
             {trainings.map((training) => {
               return (
-                <motion.div layout className="w-full flex py-4 relative" key={training.id}>
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
-                    <MdImage className="h-full w-full object-cover text-blue-800" />
-                  </div>
-                  <div className="w-full" onClick={enableDetails(training)}>
-                    <div className="flex items-center ml-2">
-                      <p className="font-semibold">{training.name}</p>
-                      <span className="ml-2 mr-2 text-gray-500 text-lg">
-                        {' '}
-                        ·{' '}
-                      </span>
-                      <TimeAgo timestamp={training.date} />
-                    </div>
-                    <div className="ml-2">descripcion</div>
-                  </div>
-                  <div
-                    className="w-8 h-8 rounded-full overflow-hidden bg-white"
-                    onClick={enableOptions(training)}
-                  >
-                    <MdExpandMore className="h-full w-full object-cover text-gray-500" />
-                  </div>
-                  <AnimatePresence>
-                    {options.visible && options.id === training.id && (
-                      <Options
-                        enableOptions={enableOptions}
-                        training={training}
-                        disableOptions={disableOptions}
-                      />
-                    )}
-                  </AnimatePresence>
-                </motion.div>
+                <Training
+                  enableOptions={enableOptions}
+                  training={training}
+                  disableOptions={disableOptions}
+                  enableDetails={enableDetails}
+                  options={options}
+                  key={training.id}
+                />
               );
             })}
-          </div>
-        </motion.div>
-      </AnimateSharedLayout>
+          </ul>
+        </AnimateSharedLayout>
+      </motion.div>
       <Navigation active={'trainings'} />
     </div>
   );
@@ -187,17 +167,69 @@ function TimeAgo({ timestamp }) {
   return <p className="text-gray-500">{formatedTime}</p>;
 }
 
+function Training({
+  enableOptions,
+  disableOptions,
+  training,
+  options,
+  enableDetails,
+}) {
+  return (
+    <motion.li layout className="w-full flex py-4 relative">
+      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
+        <MdImage className="h-full w-full object-cover text-blue-800" />
+      </div>
+      <div className="w-full" onClick={enableDetails(training)}>
+        <div className="flex items-center ml-2">
+          <p className="font-semibold">{training.name}</p>
+          <span className="ml-2 mr-2 text-gray-500 text-lg">·</span>
+          <TimeAgo timestamp={training.date} />
+        </div>
+        <div className="ml-2">descripcion</div>
+      </div>
+      <div
+        className="w-8 h-8 rounded-full overflow-hidden bg-white"
+        onClick={enableOptions(training)}
+      >
+        <MdExpandMore className="h-full w-full object-cover text-gray-500" />
+      </div>
+      <AnimatePresence>
+        {options.visible && options.id === training.id && (
+          <Options
+            enableOptions={enableOptions}
+            training={training}
+            disableOptions={disableOptions}
+          />
+        )}
+      </AnimatePresence>
+    </motion.li>
+  );
+}
+
 function Options({ enableOptions, disableOptions, training }) {
   return (
     <motion.div
       layout
-      initial={{ y: '100vw' }}
-      animate={{ y: 0 }}
-      exit={{ y: '-100vw' }}
-      transition={{
-        type: 'spring',
-        stiffness: 700,
-        damping: 30,
+      initial={{
+        y: -50,
+        opacity: 0,
+        transition: {
+          y: { stiffness: 1000, velocity: -100 },
+        },
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        transition: {
+          y: { stiffness: 1000, velocity: -100 },
+        },
+      }}
+      exit={{
+        y: 50,
+        opacity: 0,
+        transition: {
+          y: { stiffness: 1000 },
+        },
       }}
       className={`absolute bg-gray-200 p-1 rounded inset-0 flex`}
     >
