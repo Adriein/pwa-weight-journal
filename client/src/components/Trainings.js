@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -30,18 +30,6 @@ const pageVariants = {
     opacity: 0,
     x: '100vw',
     scale: 1.2,
-  },
-};
-
-const optionsVariant = {
-  initial: {
-    display: 'hidden',
-  },
-  in: {
-    x: 0,
-  },
-  out: {
-    display: 'hidden',
   },
 };
 
@@ -140,75 +128,55 @@ export default function Trainings() {
   return (
     <div className="h-screen">
       <Header currentPage={'Entrenos'} />
-      <motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransition}
-        className="relative"
-      >
-        <div className="p-4 h-full mb-16">
-          {trainings.map((training) => {
-            return (
-              <div className="w-full flex py-4 relative" key={training.id}>
-                <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
-                  <MdImage className="h-full w-full object-cover text-blue-800" />
-                </div>
-                <div className="w-full" onClick={enableDetails(training)}>
-                  <div className="flex items-center ml-2">
-                    <p className="font-semibold">{training.name}</p>
-                    <span className="ml-2 mr-2 text-gray-500 text-lg"> · </span>
-                    <TimeAgo timestamp={training.date} />
+      <AnimateSharedLayout>
+        <motion.div
+          layout
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransition}
+          className="relative"
+        >
+          <div className="p-4 h-full mb-16">
+            {trainings.map((training) => {
+              return (
+                <motion.div layout className="w-full flex py-4 relative" key={training.id}>
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
+                    <MdImage className="h-full w-full object-cover text-blue-800" />
                   </div>
-                  <div className="ml-2">descripcion</div>
-                </div>
-                <div
-                  className="w-8 h-8 rounded-full overflow-hidden bg-white"
-                  onClick={enableOptions(training)}
-                >
-                  <MdExpandMore className="h-full w-full object-cover text-gray-500" />
-                </div>
-                <motion.div
-                  animate={
-                    options.visible && options.id === training.id ? 'in' : 'out'
-                  }
-                  variants={optionsVariant}
-                  transition={pageTransition}
-                  className={`absolute bg-gray-200 p-1 rounded inset-0 flex ${
-                    options.visible && options.id === training.id
-                      ? ''
-                      : 'hidden'
-                  }`}
-                >
-                  <div className="flex-grow flex items-center justify-center">
-                    <div
-                      className="w-10 h-10 rounded-full overflow-hidden p-1  bg-gray-200 mr-5"
-                      onClick={enableOptions(training)}
-                    >
-                      <MdEdit className="h-full w-full object-cover text-blue-800" />
+                  <div className="w-full" onClick={enableDetails(training)}>
+                    <div className="flex items-center ml-2">
+                      <p className="font-semibold">{training.name}</p>
+                      <span className="ml-2 mr-2 text-gray-500 text-lg">
+                        {' '}
+                        ·{' '}
+                      </span>
+                      <TimeAgo timestamp={training.date} />
                     </div>
-                    <div
-                      className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5"
-                      onClick={enableOptions(training)}
-                    >
-                      <MdDelete className="h-full w-full object-cover text-red-600" />
-                    </div>
+                    <div className="ml-2">descripcion</div>
                   </div>
-                  <div>
-                    <div
-                      className="w-8 h-8 rounded-full overflow-hidden bg-white border-2 border-blue-800"
-                      onClick={disableOptions(training)}
-                    >
-                      <MdExpandMore className="h-full w-full object-cover text-blue-800" />
-                    </div>
+                  <div
+                    className="w-8 h-8 rounded-full overflow-hidden bg-white"
+                    onClick={enableOptions(training)}
+                  >
+                    <MdExpandMore className="h-full w-full object-cover text-gray-500" />
                   </div>
+                  <AnimatePresence>
+                    {options.visible && options.id === training.id && (
+                      <Options
+                        enableOptions={enableOptions}
+                        training={training}
+                        disableOptions={disableOptions}
+                      />
+                    )}
+                  </AnimatePresence>
                 </motion.div>
-              </div>
-            );
-          })}
-        </div>
-      </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimateSharedLayout>
       <Navigation active={'trainings'} />
     </div>
   );
@@ -217,4 +185,44 @@ export default function Trainings() {
 function TimeAgo({ timestamp }) {
   const formatedTime = useTimeAgo(timestamp);
   return <p className="text-gray-500">{formatedTime}</p>;
+}
+
+function Options({ enableOptions, disableOptions, training }) {
+  return (
+    <motion.div
+      layout
+      initial={{ y: '100vw' }}
+      animate={{ y: 0 }}
+      exit={{ y: '-100vw' }}
+      transition={{
+        type: 'spring',
+        stiffness: 700,
+        damping: 30,
+      }}
+      className={`absolute bg-gray-200 p-1 rounded inset-0 flex`}
+    >
+      <div className="flex-grow flex items-center justify-center">
+        <div
+          className="w-10 h-10 rounded-full overflow-hidden p-1  bg-gray-200 mr-5"
+          onClick={enableOptions(training)}
+        >
+          <MdEdit className="h-full w-full object-cover text-blue-800" />
+        </div>
+        <div
+          className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5"
+          onClick={enableOptions(training)}
+        >
+          <MdDelete className="h-full w-full object-cover text-red-600" />
+        </div>
+      </div>
+      <div>
+        <div
+          className="w-8 h-8 rounded-full overflow-hidden bg-white border-2 border-blue-800"
+          onClick={disableOptions(training)}
+        >
+          <MdExpandMore className="h-full w-full object-cover text-blue-800" />
+        </div>
+      </div>
+    </motion.div>
+  );
 }
