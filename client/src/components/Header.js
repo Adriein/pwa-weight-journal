@@ -4,15 +4,10 @@ import { motion } from 'framer-motion';
 import { MdKeyboardArrowLeft, MdExitToApp, MdSettings } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 
-import { AuthContext } from '../context/AuthContext';
 import { DispatchContext } from '../context/AuthContext';
 
 export default function Header({ currentPage, navigation }) {
-  const { auth } = useContext(AuthContext);
   const dispatch = useContext(DispatchContext);
-  const getFirstLetter = (username) => {
-    return username.split('')[0];
-  };
   const history = useHistory();
   const [open, setOpen] = useState(false);
 

@@ -9,6 +9,7 @@ import CategoryExercices from './CategoryExercices';
 import Home from './Home';
 import Trainings from './Trainings';
 import Form from './Form';
+import SearchInterface from './SearchInterface';
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
             path="/form"
             exact
             component={Form}
+          />
+          <ProtectedRoute
+            path="/search"
+            exact
+            component={SearchInterface}
           />
         </ExerciceProvider>
       </AuthProvider>

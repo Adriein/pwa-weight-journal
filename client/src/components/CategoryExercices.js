@@ -9,7 +9,6 @@ import { MdLabel } from 'react-icons/md';
 import Header from './Header';
 import Navigation from './Navigation';
 
-
 export default function CategoryExercices() {
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
@@ -42,15 +41,11 @@ export default function CategoryExercices() {
   };
 
   const selectExercice = (exercice) => () => {
-    history.push('/training');
+    history.push('/form', {from: '/category'});
     exerciceDispatcher({
       type: 'SELECT_EXERCICE',
       payload: exercice,
     });
-  };
-
-  const goBack = () => {
-    history.push('/training');
   };
 
   return (
@@ -58,7 +53,6 @@ export default function CategoryExercices() {
       <Header
         currentPage={traduceCategories(exercices.exercicesByCategory.category)}
         navigation={true}
-        goBack={goBack}
       />
       <motion.div animate={exercices.loading ? 'closed' : 'open'} layout>
         <motion.ul variants={variants} className="p-5">
