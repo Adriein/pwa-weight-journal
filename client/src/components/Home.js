@@ -39,7 +39,7 @@ export default function Home() {
     history.push(`/${path}`);
   };
   const CONTENT = {
-    logs: {
+    trainings: {
       title: 'Crea tu entrenamiento',
       legend: 'Empieza a medir la calidad de tus entrenos',
     },
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="p-4">
           <Carousel>
             {[
-              ['logs', 'blue'],
+              ['trainings', 'blue'],
               ['graphs', 'green'],
               ['settings', 'yellow'],
             ].map(([link, color], index) => {

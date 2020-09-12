@@ -37,9 +37,9 @@ export default function Header({ currentPage, navigation }) {
         onClick={() => setOpen(!open)}
       ></div>
       {navigation && (
-        <button className="focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none outline-none appearance-none w-10 h-10 rounded-full bg-gray-200 mr-5">
+        <div className="focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none outline-none appearance-none w-10 h-10 rounded-full bg-gray-200 mr-5">
           <MdKeyboardArrowLeft className="w-full h-full text-gray-500" onClick={history.goBack}/>
-        </button>
+        </div>
       )}
       <motion.h2
         initial={{ x: "-100vw" }}

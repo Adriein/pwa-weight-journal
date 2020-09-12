@@ -8,7 +8,7 @@ const defaultState = {
   exercices: [],
   error: undefined,
   loading: false,
-  selected: undefined,
+  selected: [],
   categories: [],
   exercicesByCategory: { category: 'Cargando...', exercices: [] },
   training: {

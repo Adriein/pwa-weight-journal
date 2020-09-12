@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { traduceCategories, beautifyName } from '../helpers';
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
 import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import { MdLabel } from 'react-icons/md';
+import { MdLabel, MdLabelOutline } from 'react-icons/md';
 import Header from './Header';
 import Navigation from './Navigation';
 
@@ -13,6 +13,7 @@ export default function CategoryExercices() {
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
   const history = useHistory();
+  const [selected, setSelected] = useState([]);
 
   const itemVariants = {
     open: {
@@ -41,10 +42,29 @@ export default function CategoryExercices() {
   };
 
   const selectExercice = (exercice) => () => {
-    history.push('/form', {from: '/category'});
+    const existing = selected.find((item) => item.id === exercice.id);
+    if (existing) {
+      selected.splice(selected.indexOf(existing), 1);
+      setSelected([...selected]);
+      return;
+    }
+
+    setSelected([...selected, exercice]);
+  };
+
+  const showLabel = (id) => {
+    if (selected.find((item) => item.id === id)) {
+      return <MdLabel className="h-6 w-6 text-blue-800" />;
+    }
+
+    return <MdLabelOutline className="h-6 w-6 text-blue-800" />;
+  };
+
+  const setTraining = () => {
+    history.push('/form', { from: '/category' });
     exerciceDispatcher({
       type: 'SELECT_EXERCICE',
-      payload: exercice,
+      payload: selected,
     });
   };
 
@@ -65,9 +85,7 @@ export default function CategoryExercices() {
                 key={exercice.name}
                 onClick={selectExercice(exercice)}
               >
-                <div className="mr-5">
-                  <MdLabel className="h-6 w-6 text-blue-800" />
-                </div>
+                <div className="mr-5">{showLabel(exercice.id)}</div>
                 <p className="flex-grow text-lg font-medium">
                   {beautifiedExercice.name}
                 </p>
@@ -75,8 +93,9 @@ export default function CategoryExercices() {
             );
           })}
         </motion.ul>
+        {selected.length > 0 && <button onClick={setTraining}>Añadir</button>}
       </motion.div>
-      <Navigation active={'logs'} />
+      <Navigation active={'trainings'} />
     </div>
   );
 }

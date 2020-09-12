@@ -130,14 +130,17 @@ export default function Trainings() {
         transition={pageTransition}
       >
         <div className="flex w-full px-4 pt-2 justify-center">
-          <button
-            className="w-12 h-12 rounded-full overflow-hidden bg-green-200 focus:outline-none focus:appearance-none "
+          <div
+            className="flex items-center bg-purple-600 p-2 rounded-lg"
             onClick={() =>
               history.push('/form', { from: history.location.pathname })
             }
           >
-            <MdAdd className="h-full w-full object-cover text-green-700" />
-          </button>
+            <div className="w-5 h-5 rounded-full overflow-hidden bg-white focus:outline-none focus:appearance-none ">
+              <MdAdd className="h-full w-full object-cover text-purple-700 font-medium" />
+            </div>
+            <p className="text-white font-medium ml-2">Crea un entreno</p>
+          </div>
         </div>
 
         <AnimateSharedLayout>

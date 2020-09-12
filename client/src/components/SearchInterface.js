@@ -44,6 +44,18 @@ export default function SearchInterface() {
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
 
+  useEffect(() => {
+    exerciceDispatcher({
+      type: 'LOADING',
+    });
+    (async () => {
+      exerciceDispatcher({
+        type: 'FETCH_CATEGORIES',
+        payload: (await axios.get(`/api/categories`)).data,
+      });
+    })();
+  }, []);
+
   const clickCategory = (event) => {
     history.push('/category');
     exerciceDispatcher({
@@ -81,17 +93,18 @@ export default function SearchInterface() {
             <SearchBar />
           </div>
           <p className="text-base text-gray-800 mb-3">Categorias</p>
-          <Carousel>
-            {exercices.categories.map((category) => {
-              return (
-                <motion.div
-                  className={`bg-gray-300 w-48 mr-5 rounded-md p-2 flex-col`}
-                  ref={ref}
-                  key={category}
-                  id={category}
-                  onClick={clickCategory}
-                >
-                  {/* <div className="w-12 h-12 rounded-full overflow-hidden">
+          {exercices.categories.length > 0 && (
+            <Carousel>
+              {exercices.categories.map((category) => {
+                return (
+                  <motion.div
+                    className={`bg-gray-300 w-48 mr-5 rounded-md p-2 flex-col`}
+                    ref={ref}
+                    key={category}
+                    id={category}
+                    onClick={clickCategory}
+                  >
+                    {/* <div className="w-12 h-12 rounded-full overflow-hidden">
               <motion.img
                 className="h-full w-full object-cover"
                 initial={{ opacity: 0 }}
@@ -101,18 +114,19 @@ export default function SearchInterface() {
                 alt="training"
               />
             </div> */}
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
-                    <MdLayers className="h-full w-full object-cover text-yellow-600" />
-                  </div>
-                  <div className="p-1 mt-5">
-                    <h4 className="text-sm font-semibold">
-                      {traduceCategories(category)}
-                    </h4>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </Carousel>
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                      <MdLayers className="h-full w-full object-cover text-yellow-600" />
+                    </div>
+                    <div className="p-1 mt-5">
+                      <h4 className="text-sm font-semibold">
+                        {traduceCategories(category)}
+                      </h4>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </Carousel>
+          )}
         </div>
       </motion.div>
       <Navigation active={'trainings'} />
