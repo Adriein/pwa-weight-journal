@@ -1,12 +1,12 @@
 import { Training, Repository } from '../../core/entities';
 import { TrainingModel, TraningDoc } from '../data/schemas';
-import { WeightLogMapper } from '../data/mappers/TraningMapper';
+import { TrainingMapper } from '../data/mappers/TraningMapper';
 
 export class WeightLogRepository implements Repository<Training> {
-  private mapper: WeightLogMapper;
+  private mapper: TrainingMapper;
 
   constructor() {
-    this.mapper = new WeightLogMapper();
+    this.mapper = new TrainingMapper();
   }
 
   async findMany(searchObj: any): Promise<Training[]> {

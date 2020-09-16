@@ -9,4 +9,5 @@ export * from './Category';
 export * from './Exercice';
 export * from './Training';
 export * from './TraningLog';
+export * from './Rutine';
 

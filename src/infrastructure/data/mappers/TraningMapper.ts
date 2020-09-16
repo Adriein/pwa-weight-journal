@@ -1,24 +1,22 @@
 import { Training } from '../../../core/entities';
 import { TraningDoc } from '../schemas';
 
-export class WeightLogMapper {
+export class TrainingMapper {
   logSchemaToDomainTraining({
     _id,
-    userId,
+    rutineId,
     logs,
-    date,
     creationDate,
   }: TraningDoc): Training {
-    return { id: _id, userId, logs, date, creationDate } as Training;
+    return { id: _id, rutineId, logs, creationDate } as Training;
   }
 
   logsSchemaToDomainTrainings(trainings: TraningDoc[]): Training[] {
     return trainings.map((training) => {
       return {
         id: training._id,
-        userId: training.userId,
+        rutineId: training.rutineId,
         logs: training.logs,
-        date: training.date,
         creationDate: training.creationDate,
       } as Training;
     });

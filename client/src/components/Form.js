@@ -100,19 +100,18 @@ export default function Form() {
                 })}
               </ul>
             </div>
-            <div className="flex w-full pt-2 justify-center">
-              <div
-                className="flex items-center justify-center bg-purple-600 p-2 rounded-b w-full"
-                onClick={() =>
-                  history.push('/form', { from: history.location.pathname })
-                }
-              >
-                {/* <div className="w-5 h-5 rounded-full overflow-hidden bg-white focus:outline-none focus:appearance-none ">
-                  <MdSave className="h-full w-full object-cover text-purple-700 font-medium" />
-                </div> */}
-                <p className="text-white font-medium">Guardar</p>
+            {exercices.selected.length > 0 && (
+              <div className="flex w-full pt-2 justify-center">
+                <div
+                  className="flex items-center justify-center bg-purple-600 p-2 rounded-b w-full"
+                  onClick={() =>
+                    history.push('/form', { from: history.location.pathname })
+                  }
+                >
+                  <p className="text-white font-medium">Guardar</p>
+                </div>
               </div>
-            </div>
+            )}
           </form>
         </div>
       </motion.div>

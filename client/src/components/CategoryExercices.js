@@ -15,30 +15,28 @@ export default function CategoryExercices() {
   const history = useHistory();
   const [selected, setSelected] = useState([]);
 
-  const itemVariants = {
-    open: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        y: { stiffness: 1000, velocity: -100 },
-      },
-    },
-    closed: {
-      y: 50,
+  const pageVariants = {
+    initial: {
       opacity: 0,
-      transition: {
-        y: { stiffness: 1000 },
-      },
+      x: '-100vw',
+      scale: 0.8,
+    },
+    in: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+    },
+    out: {
+      opacity: 0,
+      x: '100vw',
+      scale: 1.2,
     },
   };
-
-  const variants = {
-    open: {
-      transition: { staggerChildren: 0.07, delayChildren: 0.2 },
-    },
-    closed: {
-      transition: { staggerChildren: 0.05, staggerDirection: -1 },
-    },
+  
+  const pageTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 1,
   };
 
   const selectExercice = (exercice) => () => {
@@ -74,13 +72,19 @@ export default function CategoryExercices() {
         currentPage={traduceCategories(exercices.exercicesByCategory.category)}
         navigation={true}
       />
-      <motion.div animate={exercices.loading ? 'closed' : 'open'} layout>
-        <motion.ul variants={variants} className="p-5">
+      <motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+        className="mb-16"
+      >
+        <ul className="p-5">
           {exercices.exercicesByCategory.exercices.map((exercice) => {
             const [beautifiedExercice] = beautifyName([exercice]);
             return (
-              <motion.li
-                variants={itemVariants}
+              <li
                 className="flex items-center py-2"
                 key={exercice.name}
                 onClick={selectExercice(exercice)}
@@ -89,11 +93,20 @@ export default function CategoryExercices() {
                 <p className="flex-grow text-lg font-medium">
                   {beautifiedExercice.name}
                 </p>
-              </motion.li>
+              </li>
             );
           })}
-        </motion.ul>
-        {selected.length > 0 && <button onClick={setTraining}>Añadir</button>}
+        </ul>
+        {selected.length > 0 && (
+          <div className="flex w-full px-4 justify-center">
+            <div
+              className="flex items-center justify-center bg-blue-600 p-2 rounded-b w-full"
+              onClick={setTraining}
+            >
+              <p className="text-white font-medium">Añadir</p>
+            </div>
+          </div>
+        )}
       </motion.div>
       <Navigation active={'trainings'} />
     </div>
