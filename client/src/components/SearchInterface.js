@@ -51,10 +51,11 @@ export default function SearchInterface() {
     (async () => {
       exerciceDispatcher({
         type: 'FETCH_CATEGORIES',
-        payload: (await axios.get(`/api/categories`)).data,
+        payload: [(await axios.get(`/api/categories`)).data, (await axios.get(`/api/exercices`)).data],
       });
     })();
   }, []);
+
 
   const clickCategory = (event) => {
     history.push('/category');
@@ -88,11 +89,13 @@ export default function SearchInterface() {
           {/* <p className="text-xl text-blue-500 mb-5 font-medium">
             Selecciona el ejercicio
           </p> */}
-          <p className="text-base text-gray-800 mb-3">Buscar por nombre</p>
+          <p className="text-base text-gray-600 font-medium mb-3">
+            Buscar por nombre
+          </p>
           <div className="mb-5">
             <SearchBar />
           </div>
-          <p className="text-base text-gray-800 mb-3">Categorias</p>
+          <p className="text-base text-gray-600 font-medium mb-3">Categorias</p>
           {exercices.categories.length > 0 && (
             <Carousel>
               {exercices.categories.map((category) => {

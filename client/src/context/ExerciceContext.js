@@ -6,6 +6,7 @@ export const DispatchContext = createContext();
 
 const defaultState = {
   exercices: [],
+  allExistingExercices: [],
   error: undefined,
   loading: false,
   selected: [],

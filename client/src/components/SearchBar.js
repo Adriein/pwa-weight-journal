@@ -80,7 +80,7 @@ export default function SearchBar() {
     <div ref={ref} className="relative">
       <input
         id="search-bar"
-        className="bg-white appearance-none border-2 border-gray-300 rounded p-4 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
+        className="bg-white appearance-none border-2 border-gray-300 rounded p-2 w-full text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-800 text-base"
         type="text"
         value={value}
         onChange={handleChange}

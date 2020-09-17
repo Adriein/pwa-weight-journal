@@ -9,3 +9,4 @@ export * from './logs/CreateLogUseCase';
 export * from './exercices/SearchExercicesUseCase';
 export * from './logs/RetriveAllLogsUseCase';
 export * from './exercices/RetriveAllExercicesByCategoryUseCase';
+export * from './rutines/RetriveAllRutinesUseCase';

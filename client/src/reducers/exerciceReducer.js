@@ -6,6 +6,7 @@ const reducer = (state, action) => {
       if (action.payload.length === 0) {
         return {
           exercices: [],
+          allExistingExercices: [...state.allExistingExercices],
           error: 'No se han encontrado ejercicios...',
           loading: false,
           selected: [],
@@ -16,6 +17,7 @@ const reducer = (state, action) => {
       }
       return {
         exercices: [...beautifyName(action.payload)],
+        allExistingExercices: [...state.allExistingExercices],
         error: undefined,
         loading: false,
         selected: [],
@@ -26,6 +28,7 @@ const reducer = (state, action) => {
     case 'LOADING':
       return {
         exercices: [],
+        allExistingExercices: [...state.allExistingExercices],
         error: undefined,
         loading: true,
         selected: [...state.selected],
@@ -36,6 +39,7 @@ const reducer = (state, action) => {
     case 'FETCH_ERROR':
       return {
         exercices: [...state.exercices],
+        allExistingExercices: [...state.allExistingExercices],
         error: action.payload[0],
         loading: false,
         selected: [],
@@ -46,6 +50,7 @@ const reducer = (state, action) => {
     case 'SELECT_EXERCICE':
       return {
         exercices: [],
+        allExistingExercices: [],
         error: undefined,
         loading: false,
         selected: [...state.selected, ...action.payload],
@@ -63,6 +68,7 @@ const reducer = (state, action) => {
     case 'DISCARD_SELECTION':
       return {
         exercices: [],
+        allExistingExercices: [],
         error: undefined,
         loading: false,
         selected: [],
@@ -73,16 +79,18 @@ const reducer = (state, action) => {
     case 'FETCH_CATEGORIES':
       return {
         exercices: [],
+        allExistingExercices: [...action.payload[1]],
         error: undefined,
         loading: false,
         selected: [...state.selected],
-        categories: [...action.payload],
+        categories: [...action.payload[0]],
         exercicesByCategory: { category: 'Cargando...', exercices: [] },
         training: state.training,
       };
     case 'FETCH_CATEGORY':
       return {
         exercices: [],
+        allExistingExercices: [],
         error: undefined,
         loading: false,
         selected: [...state.selected],
@@ -93,6 +101,7 @@ const reducer = (state, action) => {
     case 'RESET':
       return {
         exercices: [],
+        allExistingExercices: [],
         error: undefined,
         loading: false,
         selected: [],
@@ -103,6 +112,7 @@ const reducer = (state, action) => {
     case 'START_TRAINING':
       return {
         exercices: [],
+        allExistingExercices: [],
         error: undefined,
         loading: false,
         selected: [],
