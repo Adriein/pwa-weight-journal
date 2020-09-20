@@ -1,13 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
+
+import { RutinesContext } from '../context/RutinesContext';
+import { RutinesDispatcher } from '../context/RutinesContext';
 
 import { MdImage, MdDelete, MdExpandMore, MdAdd, MdEdit } from 'react-icons/md';
 
 import Header from './Header';
 import Navigation from './Navigation';
+import RutineForm from './RutineForm';
 
 import useTimeAgo from '../hooks/useTimeAgo';
+import axios from 'axios';
 
 const pageVariants = {
   initial: {
@@ -48,64 +52,33 @@ const trainings = [
     stats: [],
     owner: 2,
   },
-  {
-    id: 3,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 4,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 5,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 6,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 7,
-    date: new Date('September 05, 2020 17:07:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 8,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 9,
-    date: new Date('September 05, 2020 15:24:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
 ];
 
-export default function Trainings() {
-  const history = useHistory();
-  const targetRef = useRef();
+export default function Rutines() {
   const [options, setOptions] = useState({ visible: false, id: undefined });
+  const rutineState = useContext(RutinesContext);
+  const dispatcher = useContext(RutinesDispatcher);
   useEffect(() => {
-    console.log('fetch of trainings');
+    // dispatcher({ action: 'LOADING' });
+    (async () => {
+      dispatcher({
+        type: 'FETCH_RUTINES',
+        payload: (await axios.get('/api/rutines')).data,
+      });
+    })();
   }, []);
+
+  const setCurrentPage = () => {
+    return rutineState.state.default
+      ? 'Rutinas'
+      : rutineState.state.create
+      ? 'Crear Rutina'
+      : 'Editar Rutina';
+  };
+
+  const createRutine = () => {
+    dispatcher({ type: 'SET_CREATE' });
+  };
 
   const enableOptions = (training) => () => {
     setOptions({ visible: true, id: training.id });
@@ -119,9 +92,26 @@ export default function Trainings() {
     console.log(training);
   };
 
+  const navigationLogic = () => {
+    if (rutineState.state.create && rutineState.state.search) {
+      return {
+        visible: true,
+        action: () => dispatcher({ type: 'SET_CREATE' }),
+      };
+    }
+    if (rutineState.state.create) {
+      return {
+        visible: true,
+        action: () => dispatcher({ type: 'SET_DEFAULT' }),
+      };
+    }
+  };
+
+  console.log(rutineState);
+
   return (
     <div className="h-screen">
-      <Header currentPage={'Entrenos'} />
+      <Header currentPage={setCurrentPage()} navigation={navigationLogic()} />
       <motion.div
         initial="initial"
         animate="in"
@@ -129,36 +119,39 @@ export default function Trainings() {
         variants={pageVariants}
         transition={pageTransition}
       >
-        <div className="flex w-full px-4 pt-2 justify-center">
-          <div
-            className="flex items-center bg-purple-600 p-2 rounded-lg"
-            onClick={() =>
-              history.push('/form', { from: history.location.pathname })
-            }
-          >
-            <div className="w-5 h-5 rounded-full overflow-hidden bg-white focus:outline-none focus:appearance-none ">
-              <MdAdd className="h-full w-full object-cover text-purple-700 font-medium" />
+        {rutineState.state.default && (
+          <div>
+            <div className="flex w-full px-4 pt-2 justify-center">
+              <div
+                className="flex items-center bg-purple-600 p-2 rounded-lg"
+                onClick={createRutine}
+              >
+                <div className="w-5 h-5 rounded-full overflow-hidden bg-white focus:outline-none focus:appearance-none ">
+                  <MdAdd className="h-full w-full object-cover text-purple-700 font-medium" />
+                </div>
+                <p className="text-white font-medium ml-2">Crea un entreno</p>
+              </div>
             </div>
-            <p className="text-white font-medium ml-2">Crea un entreno</p>
-          </div>
-        </div>
 
-        <AnimateSharedLayout>
-          <ul className="p-4 h-full mb-16">
-            {trainings.map((training) => {
-              return (
-                <Training
-                  enableOptions={enableOptions}
-                  training={training}
-                  disableOptions={disableOptions}
-                  enableDetails={enableDetails}
-                  options={options}
-                  key={training.id}
-                />
-              );
-            })}
-          </ul>
-        </AnimateSharedLayout>
+            <AnimateSharedLayout>
+              <ul className="p-4 h-full mb-16">
+                {rutineState.rutines.map((training) => {
+                  return (
+                    <Rutine
+                      enableOptions={enableOptions}
+                      training={training}
+                      disableOptions={disableOptions}
+                      enableDetails={enableDetails}
+                      options={options}
+                      key={training.id}
+                    />
+                  );
+                })}
+              </ul>
+            </AnimateSharedLayout>
+          </div>
+        )}
+        {rutineState.state.create && <RutineForm />}
       </motion.div>
       <Navigation active={'trainings'} />
     </div>
@@ -170,7 +163,7 @@ function TimeAgo({ timestamp }) {
   return <p className="text-gray-500">{formatedTime}</p>;
 }
 
-function Training({
+function Rutine({
   enableOptions,
   disableOptions,
   training,
@@ -186,9 +179,9 @@ function Training({
         <div className="flex items-center ml-2">
           <p className="font-semibold">{training.name}</p>
           <span className="ml-2 mr-2 text-gray-500 text-lg">·</span>
-          <TimeAgo timestamp={training.date} />
+          <TimeAgo timestamp={new Date(training.creationDate)} />
         </div>
-        <div className="ml-2">descripcion</div>
+        <div className="ml-2">{training.description}</div>
       </div>
       <div
         className="w-8 h-8 rounded-full overflow-hidden bg-white"

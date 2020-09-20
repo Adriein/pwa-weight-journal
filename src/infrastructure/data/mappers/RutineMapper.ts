@@ -6,9 +6,18 @@ export class RutineMapper {
     _id,
     userId,
     name,
-    creationDate,
+    description,
+    exercices,
+    updatedAt,
   }: RutineDoc): Rutine {
-    return { id: _id, userId, name, creationDate } as Rutine;
+    return {
+      id: _id,
+      userId,
+      name,
+      description,
+      exercices,
+      creationDate: updatedAt,
+    } as Rutine;
   }
 
   rutinesSchemaToDomainRutines(rutines: RutineDoc[]): Rutine[] {
@@ -16,8 +25,10 @@ export class RutineMapper {
       return {
         id: rutine._id,
         rutineId: rutine.userId,
-        logs: rutine.name,
-        creationDate: rutine.creationDate,
+        name: rutine.name,
+        description: rutine.description,
+        exercices: rutine.exercices,
+        creationDate: rutine.updatedAt,
       } as Rutine;
     });
   }

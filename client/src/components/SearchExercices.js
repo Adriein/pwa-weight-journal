@@ -1,48 +1,22 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { traduceCategories } from '../helpers';
-import { useHistory } from 'react-router-dom';
 
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
 
 import SearchBar from './SearchBar';
 import Carousel from './Carousel';
-import Header from './Header';
-import Navigation from './Navigation';
 
 import { MdLayers } from 'react-icons/md';
+import CategoryExercices from './CategoryExercices';
 
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    x: '-100vw',
-    scale: 0.8,
-  },
-  in: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-  },
-  out: {
-    opacity: 0,
-    x: '100vw',
-    scale: 1.2,
-  },
-};
-
-const pageTransition = {
-  type: 'tween',
-  ease: 'anticipate',
-  duration: 1,
-};
-
-export default function SearchInterface() {
+export default function SearchExercices() {
   const ref = useRef();
-  const history = useHistory();
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
+  const [category, setCategory] = useState(false);
 
   useEffect(() => {
     exerciceDispatcher({
@@ -51,14 +25,16 @@ export default function SearchInterface() {
     (async () => {
       exerciceDispatcher({
         type: 'FETCH_CATEGORIES',
-        payload: [(await axios.get(`/api/categories`)).data, (await axios.get(`/api/exercices`)).data],
+        payload: [
+          (await axios.get(`/api/categories`)).data,
+          (await axios.get(`/api/exercices`)).data,
+        ],
       });
     })();
   }, []);
 
-
   const clickCategory = (event) => {
-    history.push('/category');
+    setCategory(true);
     exerciceDispatcher({
       type: 'LOADING',
     });
@@ -76,19 +52,9 @@ export default function SearchInterface() {
   };
 
   return (
-    <div className="h-screen">
-      <Header currentPage={'Buscar'} navigation={true} />
-      <motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransition}
-      >
-        <div className="w-full p-4">
-          {/* <p className="text-xl text-blue-500 mb-5 font-medium">
-            Selecciona el ejercicio
-          </p> */}
+    <div className="w-full">
+      {!category && (
+        <section>
           <p className="text-base text-gray-600 font-medium mb-3">
             Buscar por nombre
           </p>
@@ -107,16 +73,6 @@ export default function SearchInterface() {
                     id={category}
                     onClick={clickCategory}
                   >
-                    {/* <div className="w-12 h-12 rounded-full overflow-hidden">
-              <motion.img
-                className="h-full w-full object-cover"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 2 }}
-                src={`/api/static/${category}`}
-                alt="training"
-              />
-            </div> */}
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
                       <MdLayers className="h-full w-full object-cover text-yellow-600" />
                     </div>
@@ -130,9 +86,13 @@ export default function SearchInterface() {
               })}
             </Carousel>
           )}
-        </div>
-      </motion.div>
-      <Navigation active={'trainings'} />
+        </section>
+      )}
+      {category && (
+        <section>
+          <CategoryExercices />
+        </section>
+      )}
     </div>
   );
 }

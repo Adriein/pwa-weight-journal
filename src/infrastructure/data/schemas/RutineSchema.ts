@@ -4,7 +4,9 @@ export interface RutineDoc extends mongoose.Document {
   _id: string;
   userId: string;
   name: string;
-  creationDate: Date;
+  description: string;
+  exercices: string[];
+  updatedAt: Date;
 }
 
 const traningSchema = new Schema(
@@ -16,6 +18,13 @@ const traningSchema = new Schema(
     name: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    exercices: {
+      type: Array,
     },
   },
   { timestamps: true }

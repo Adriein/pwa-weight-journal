@@ -2,16 +2,16 @@ import React, { useContext, useState } from 'react';
 import { traduceCategories, beautifyName } from '../helpers';
 import { ExerciceContext } from '../context/ExerciceContext';
 import { DispatchContext } from '../context/ExerciceContext';
+import { RutinesDispatcher } from '../context/RutinesContext';
 import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { MdLabel, MdLabelOutline } from 'react-icons/md';
-import Header from './Header';
-import Navigation from './Navigation';
 
 export default function CategoryExercices() {
   const exercices = useContext(ExerciceContext);
   const exerciceDispatcher = useContext(DispatchContext);
+  const rutineDispatcher = useContext(RutinesDispatcher);
   const history = useHistory();
   const [selected, setSelected] = useState([]);
 
@@ -32,7 +32,7 @@ export default function CategoryExercices() {
       scale: 1.2,
     },
   };
-  
+
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
@@ -59,7 +59,7 @@ export default function CategoryExercices() {
   };
 
   const setTraining = () => {
-    history.push('/form', { from: '/category' });
+    rutineDispatcher({ type: 'SET_CREATE' });
     exerciceDispatcher({
       type: 'SELECT_EXERCICE',
       payload: selected,
@@ -68,10 +68,6 @@ export default function CategoryExercices() {
 
   return (
     <div>
-      <Header
-        currentPage={traduceCategories(exercices.exercicesByCategory.category)}
-        navigation={true}
-      />
       <motion.div
         initial="initial"
         animate="in"
@@ -80,7 +76,7 @@ export default function CategoryExercices() {
         transition={pageTransition}
         className="mb-16"
       >
-        <ul className="p-5">
+        <ul className="px-1 mb-5">
           {exercices.exercicesByCategory.exercices.map((exercice) => {
             const [beautifiedExercice] = beautifyName([exercice]);
             return (
@@ -98,7 +94,7 @@ export default function CategoryExercices() {
           })}
         </ul>
         {selected.length > 0 && (
-          <div className="flex w-full px-4 justify-center">
+          <div className="flex w-full justify-center">
             <div
               className="flex items-center justify-center bg-blue-600 p-2 rounded-b w-full"
               onClick={setTraining}
@@ -108,7 +104,6 @@ export default function CategoryExercices() {
           </div>
         )}
       </motion.div>
-      <Navigation active={'trainings'} />
     </div>
   );
 }

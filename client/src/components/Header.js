@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import { DispatchContext } from '../context/AuthContext';
 
-export default function Header({ currentPage, navigation }) {
+export default function Header({ currentPage, navigation = {} }) {
   const dispatch = useContext(DispatchContext);
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -36,13 +36,16 @@ export default function Header({ currentPage, navigation }) {
         }`}
         onClick={() => setOpen(!open)}
       ></div>
-      {navigation && (
+      {navigation.visible && (
         <div className="focus:outline-none focus:appearance-none focus:border-none active:outline-none active:appearance-none outline-none appearance-none w-10 h-10 rounded-full bg-gray-200 mr-5">
-          <MdKeyboardArrowLeft className="w-full h-full text-gray-500" onClick={history.goBack}/>
+          <MdKeyboardArrowLeft
+            className="w-full h-full text-gray-500"
+            onClick={navigation.action}
+          />
         </div>
       )}
       <motion.h2
-        initial={{ x: "-100vw" }}
+        initial={{ x: '-100vw' }}
         animate={{ x: 0 }}
         transition={{ duration: 0.5, type: 'tween' }}
         className="flex-grow font-bold text-3xl text-blue-700"

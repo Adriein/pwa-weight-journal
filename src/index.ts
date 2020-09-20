@@ -7,6 +7,7 @@ import path from 'path';
 import cookieSession from 'cookie-session';
 import { auth, media, exercices, logs } from './routes';
 import { errorHandler } from './routes/middlewares';
+import { rutines } from './routes/rutines';
 
 const init = async () => {
   console.log(chalk.blue('Starting up...'));
@@ -44,6 +45,7 @@ const init = async () => {
 
   app.use('/api/auth', auth);
   app.use('/api', exercices);
+  app.use('/api', rutines);
   app.use('/api', logs);
   app.use('/api', media);
   app.use(errorHandler);

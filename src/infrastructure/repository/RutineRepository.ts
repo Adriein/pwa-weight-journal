@@ -12,6 +12,7 @@ export class RutineRepository implements Repository<Rutine> {
   async findMany(searchObj: any): Promise<Rutine[]> {
     const rutine: RutineDoc[] = await RutineModel.find(searchObj).exec();
     if (rutine.length === 0) return [];
+
     return this.mapper.rutinesSchemaToDomainRutines(rutine);
   }
 
