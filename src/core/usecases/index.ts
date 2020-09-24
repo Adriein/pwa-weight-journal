@@ -11,3 +11,4 @@ export * from './logs/RetriveAllLogsUseCase';
 export * from './exercices/RetriveAllExercicesByCategoryUseCase';
 export * from './rutines/RetriveAllRutinesUseCase';
 export * from './rutines/CreateRutineUseCase';
+export * from './rutines/UpdateRutineUseCase';

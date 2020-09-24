@@ -4,23 +4,17 @@ import { MdDelete, MdExpandMore, MdAdd } from 'react-icons/md';
 import { GiWeightLiftingUp } from 'react-icons/gi';
 
 import { RutinesContext } from '../context/RutinesContext';
-import { ExerciceContext } from '../context/ExerciceContext';
 import { RutinesDispatcher } from '../context/RutinesContext';
 import SearchExercices from './SearchExercices';
 
 import useInputState from '../hooks/useInputState';
 import axios from 'axios';
 
-
 export default function RutineForm() {
   const rutineState = useContext(RutinesContext);
-  const exerciceState = useContext(ExerciceContext);
   const dispatch = useContext(RutinesDispatcher);
   const [options, setOptions] = useState({ visible: false, id: undefined });
-  const [value, handleChange] = useInputState({
-    name: '',
-    description: '',
-  });
+  const [value, handleChange] = useInputState(rutineState.rutine);
 
   const enableOptions = (exercice) => () => {
     setOptions({ visible: true, id: exercice.id });
@@ -30,12 +24,15 @@ export default function RutineForm() {
     setOptions({ visible: false, id: exercice.id });
   };
 
-  const saveTraining = async () => {
-    dispatch({type: 'SET_DEFAULT'})
-    const rutine = Object.assign({}, value, {
-      exercices: [...exerciceState.selected.map((exercice) => exercice.id)],
-    });
-    await axios.post('api/rutine', rutine);
+  const saveRutine = async () => {
+    if (rutineState.render.create) {
+      dispatch({ type: 'SAVE_RUTINE', payload: rutineState.rutine });
+      await axios.post('api/rutine', rutineState.rutine);
+    } else {
+      dispatch({ type: 'UPDATE_RUTINE', payload: rutineState.rutine });
+      console.log(rutineState.rutine);
+      await axios.put('api/rutine', rutineState.rutine);
+    }
   };
 
   const openSearch = () => {
@@ -44,7 +41,7 @@ export default function RutineForm() {
 
   return (
     <div className="p-4">
-      {!rutineState.state.search && (
+      {!rutineState.render.search && (
         <form action="">
           <p className="font-semibold text-gray-600 mb-1 text-lg">
             Nombre del entreno
@@ -83,7 +80,7 @@ export default function RutineForm() {
           </div>
           <div className="w-full mt-4">
             <ul className="flex-col">
-              {exerciceState.selected.map((exercice) => {
+              {rutineState.rutine.exercices.map((exercice) => {
                 return (
                   <Item
                     key={exercice.id}
@@ -96,11 +93,11 @@ export default function RutineForm() {
               })}
             </ul>
           </div>
-          {exerciceState.selected.length > 0 && (
+          {rutineState.rutine.exercices.length > 0 && (
             <div className="flex w-full pt-2 mb-16 justify-center">
               <div
                 className="flex items-center justify-center bg-purple-600 p-2 rounded-b w-full"
-                onClick={saveTraining}
+                onClick={saveRutine}
               >
                 <p className="text-white font-medium">Guardar</p>
               </div>
@@ -109,7 +106,7 @@ export default function RutineForm() {
         </form>
       )}
 
-      {rutineState.state.search && <SearchExercices />}
+      {rutineState.render.search && <SearchExercices />}
     </div>
   );
 }

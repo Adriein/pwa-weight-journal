@@ -1,24 +1,26 @@
 import { Rutine, Repository } from '../../core/entities';
 import { RutineModel, RutineDoc } from '../data/schemas';
 import { RutineMapper } from '../data/mappers/RutineMapper';
+import { ExerciceRepository } from './ExerciceRepository';
 
 export class RutineRepository implements Repository<Rutine> {
   private mapper: RutineMapper;
+  private exerciceRepository: ExerciceRepository;
 
   constructor() {
     this.mapper = new RutineMapper();
+    this.exerciceRepository = new ExerciceRepository();
   }
 
   async findMany(searchObj: any): Promise<Rutine[]> {
-    const rutine: RutineDoc[] = await RutineModel.find(searchObj).exec();
-    if (rutine.length === 0) return [];
-
-    return this.mapper.rutinesSchemaToDomainRutines(rutine);
+    const rutines: RutineDoc[] = await RutineModel.find(searchObj).exec();
+    if (rutines.length === 0) return [];
+    return this.mapper.rutinesSchemaToDomainRutines(rutines);
   }
 
   async findOne(id: string): Promise<Rutine> {
     const response = await RutineModel.findOne({
-      name: id,
+      _id: id,
     }).exec();
     if (response !== null)
       return this.mapper.rutineSchemaToDomainRutine(response);
@@ -32,7 +34,11 @@ export class RutineRepository implements Repository<Rutine> {
   }
 
   async update(id: string, body: Rutine): Promise<Rutine> {
-    throw new Error();
+    console.log(id);
+    console.log(body);
+    return this.mapper.rutineSchemaToDomainRutine(
+      await new RutineModel(body).updateOne({ _id: id }, body)
+    );
   }
 
   async delete(id: string): Promise<number> {

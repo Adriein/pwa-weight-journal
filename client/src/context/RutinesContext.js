@@ -5,8 +5,14 @@ export const RutinesContext = createContext();
 export const RutinesDispatcher = createContext();
 
 const defaultState = {
-  state: { create: false, edit: false, default: true, search: false },
+  render: { create: false, edit: false, default: true, search: false },
   rutines: [],
+  editing: {},
+  rutine: {
+    name: '',
+    description: '',
+    exercices: [],
+  },
   error: undefined,
   loading: false,
 };

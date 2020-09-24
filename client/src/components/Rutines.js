@@ -59,7 +59,6 @@ export default function Rutines() {
   const rutineState = useContext(RutinesContext);
   const dispatcher = useContext(RutinesDispatcher);
   useEffect(() => {
-    // dispatcher({ action: 'LOADING' });
     (async () => {
       dispatcher({
         type: 'FETCH_RUTINES',
@@ -69,9 +68,9 @@ export default function Rutines() {
   }, []);
 
   const setCurrentPage = () => {
-    return rutineState.state.default
+    return rutineState.render.default
       ? 'Rutinas'
-      : rutineState.state.create
+      : rutineState.render.create
       ? 'Crear Rutina'
       : 'Editar Rutina';
   };
@@ -93,13 +92,13 @@ export default function Rutines() {
   };
 
   const navigationLogic = () => {
-    if (rutineState.state.create && rutineState.state.search) {
+    if (rutineState.render.create && rutineState.render.search) {
       return {
         visible: true,
         action: () => dispatcher({ type: 'SET_CREATE' }),
       };
     }
-    if (rutineState.state.create) {
+    if (rutineState.render.create || rutineState.render.edit) {
       return {
         visible: true,
         action: () => dispatcher({ type: 'SET_DEFAULT' }),
@@ -107,7 +106,11 @@ export default function Rutines() {
     }
   };
 
-  console.log(rutineState);
+  const onEdit = (rutine) => () => {
+    dispatcher({ type: 'SET_EDIT', payload: rutine});
+  };
+
+  const onDelete = (rutine) => () => {};
 
   return (
     <div className="h-screen">
@@ -119,7 +122,7 @@ export default function Rutines() {
         variants={pageVariants}
         transition={pageTransition}
       >
-        {rutineState.state.default && (
+        {rutineState.render.default && (
           <div>
             <div className="flex w-full px-4 pt-2 justify-center">
               <div
@@ -135,15 +138,17 @@ export default function Rutines() {
 
             <AnimateSharedLayout>
               <ul className="p-4 h-full mb-16">
-                {rutineState.rutines.map((training) => {
+                {rutineState.rutines.map((rutine) => {
                   return (
                     <Rutine
                       enableOptions={enableOptions}
-                      training={training}
+                      rutine={rutine}
                       disableOptions={disableOptions}
                       enableDetails={enableDetails}
                       options={options}
-                      key={training.id}
+                      key={rutine.id}
+                      onEdit={onEdit}
+                      onDelete={onDelete}
                     />
                   );
                 })}
@@ -151,7 +156,7 @@ export default function Rutines() {
             </AnimateSharedLayout>
           </div>
         )}
-        {rutineState.state.create && <RutineForm />}
+        {(rutineState.render.create || rutineState.render.edit) && <RutineForm/>}
       </motion.div>
       <Navigation active={'trainings'} />
     </div>
@@ -166,35 +171,38 @@ function TimeAgo({ timestamp }) {
 function Rutine({
   enableOptions,
   disableOptions,
-  training,
+  rutine,
   options,
   enableDetails,
+  onEdit,
+  onDelete,
 }) {
   return (
     <motion.li layout className="w-full flex py-4 relative">
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
         <MdImage className="h-full w-full object-cover text-blue-800" />
       </div>
-      <div className="w-full" onClick={enableDetails(training)}>
+      <div className="w-full" onClick={enableDetails(rutine)}>
         <div className="flex items-center ml-2">
-          <p className="font-semibold">{training.name}</p>
+          <p className="font-semibold">{rutine.name}</p>
           <span className="ml-2 mr-2 text-gray-500 text-lg">·</span>
-          <TimeAgo timestamp={new Date(training.creationDate)} />
+          <TimeAgo timestamp={new Date(rutine.creationDate)} />
         </div>
-        <div className="ml-2">{training.description}</div>
+        <div className="ml-2">{rutine.description}</div>
       </div>
       <div
         className="w-8 h-8 rounded-full overflow-hidden bg-white"
-        onClick={enableOptions(training)}
+        onClick={enableOptions(rutine)}
       >
         <MdExpandMore className="h-full w-full object-cover text-gray-500" />
       </div>
       <AnimatePresence>
-        {options.visible && options.id === training.id && (
+        {options.visible && options.id === rutine.id && (
           <Options
-            enableOptions={enableOptions}
-            training={training}
+            rutine={rutine}
             disableOptions={disableOptions}
+            onDelete={onDelete}
+            onEdit={onEdit}
           />
         )}
       </AnimatePresence>
@@ -202,7 +210,7 @@ function Rutine({
   );
 }
 
-function Options({ enableOptions, disableOptions, training }) {
+function Options({ onEdit, onDelete, disableOptions, rutine }) {
   return (
     <motion.div
       layout
@@ -232,13 +240,13 @@ function Options({ enableOptions, disableOptions, training }) {
       <div className="flex-grow flex items-center justify-center">
         <div
           className="w-10 h-10 rounded-full overflow-hidden p-1  bg-gray-200 mr-5"
-          onClick={enableOptions(training)}
+          onClick={onEdit(rutine)}
         >
           <MdEdit className="h-full w-full object-cover text-blue-800" />
         </div>
         <div
           className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5"
-          onClick={enableOptions(training)}
+          onClick={onDelete(rutine)}
         >
           <MdDelete className="h-full w-full object-cover text-red-600" />
         </div>
@@ -246,7 +254,7 @@ function Options({ enableOptions, disableOptions, training }) {
       <div>
         <div
           className="w-8 h-8 rounded-full overflow-hidden bg-white border-2 border-blue-800"
-          onClick={disableOptions(training)}
+          onClick={disableOptions(rutine)}
         >
           <MdExpandMore className="h-full w-full object-cover text-blue-800" />
         </div>

@@ -5,6 +5,7 @@ import { RutineRepository } from '../infrastructure/repository';
 import {
   CreateRutineUseCase,
   RetriveAllRutinesUseCase,
+  UpdateRutineUseCase,
 } from '../core/usecases';
 
 const router: Router = express.Router();
@@ -31,6 +32,21 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const usecase = new CreateRutineUseCase(rutineRepository);
+      req.body.userId = req.currentUser!.id;
+      res.status(200).send((await usecase.execute(req.body)).data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/rutine',
+  requireAuth,
+  currentUser,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const usecase = new UpdateRutineUseCase(rutineRepository);
       req.body.userId = req.currentUser!.id;
       res.status(200).send((await usecase.execute(req.body)).data);
     } catch (error) {
