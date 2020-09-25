@@ -5,6 +5,7 @@ const reducer = (state, action) => {
         render: { create: false, edit: false, default: true, search: false },
         rutines: [...state.rutines],
         rutine: {
+          id: '',
           name: '',
           description: '',
           exercices: [],
@@ -16,11 +17,7 @@ const reducer = (state, action) => {
       return {
         render: { create: true, edit: false, default: false, search: true },
         rutines: [...state.rutines],
-        rutine: {
-          name: '',
-          description: '',
-          exercices: [],
-        },
+        rutine: state.rutine,
         error: undefined,
         loading: false,
       };
@@ -42,6 +39,7 @@ const reducer = (state, action) => {
         render: { create: false, edit: true, default: false, search: false },
         rutines: [...state.rutines],
         rutine: {
+          id: action.payload.id,
           name: action.payload.name,
           description: action.payload.description,
           exercices: [...action.payload.exercices],
@@ -54,6 +52,7 @@ const reducer = (state, action) => {
         render: { create: false, edit: false, default: true, search: false },
         rutines: [...action.payload],
         rutine: {
+          id: '',
           name: '',
           description: '',
           exercices: [],
@@ -67,6 +66,7 @@ const reducer = (state, action) => {
         render: { create: false, edit: false, default: true, search: false },
         rutines: [...state.rutines, action.payload],
         rutine: {
+          id: '',
           name: '',
           description: '',
           exercices: [],
@@ -79,10 +79,13 @@ const reducer = (state, action) => {
       return {
         render: { create: false, edit: false, default: true, search: false },
         rutines: [
-          ...state.rutines.filter((rutine) => rutine.id !== action.payload.id),
-          action.payload,
+          ...state.rutines.filter(
+            (rutine) => rutine.id !== action.payload[0].id
+          ),
+          ...action.payload,
         ],
         rutine: {
+          id: '',
           name: '',
           description: '',
           exercices: [],
@@ -95,9 +98,27 @@ const reducer = (state, action) => {
         render: state.render,
         rutines: [...state.rutines],
         rutine: {
+          id: state.rutine.id,
           name: state.rutine.name,
           description: state.rutine.description,
           exercices: [...state.rutine.exercices, ...action.payload],
+        },
+        error: undefined,
+        loading: false,
+      };
+    case 'REMOVE_EXERCICE':
+      return {
+        render: state.render,
+        rutines: [...state.rutines],
+        rutine: {
+          id: state.rutine.id,
+          name: state.rutine.name,
+          description: state.rutine.description,
+          exercices: [
+            ...state.rutine.exercices.filter(
+              (exercice) => exercice.id !== action.payload.id
+            ),
+          ],
         },
         error: undefined,
         loading: false,

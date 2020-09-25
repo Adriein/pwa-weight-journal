@@ -26,17 +26,34 @@ export default function RutineForm() {
 
   const saveRutine = async () => {
     if (rutineState.render.create) {
-      dispatch({ type: 'SAVE_RUTINE', payload: rutineState.rutine });
-      await axios.post('api/rutine', rutineState.rutine);
+      dispatch({
+        type: 'SAVE_RUTINE',
+        payload: (
+          await axios.post(
+            'api/rutine',
+            Object.assign({}, rutineState.rutine, value)
+          )
+        ).data,
+      });
     } else {
-      dispatch({ type: 'UPDATE_RUTINE', payload: rutineState.rutine });
-      console.log(rutineState.rutine);
-      await axios.put('api/rutine', rutineState.rutine);
+      dispatch({
+        type: 'UPDATE_RUTINE',
+        payload: (
+          await axios.put(
+            'api/rutine',
+            Object.assign({}, rutineState.rutine, value)
+          )
+        ).data,
+      });
     }
   };
 
   const openSearch = () => {
     dispatch({ type: 'SET_SEARCH' });
+  };
+
+  const removeExercice = (exercice) => () => {
+    dispatch({ type: 'REMOVE_EXERCICE', payload: exercice });
   };
 
   return (
@@ -88,6 +105,7 @@ export default function RutineForm() {
                     enableOptions={enableOptions}
                     disableOptions={disableOptions}
                     options={options}
+                    removeExercice={removeExercice}
                   />
                 );
               })}
@@ -111,7 +129,13 @@ export default function RutineForm() {
   );
 }
 
-function Item({ exercice, enableOptions, options, disableOptions }) {
+function Item({
+  exercice,
+  enableOptions,
+  options,
+  disableOptions,
+  removeExercice,
+}) {
   return (
     <motion.li layout className="w-full flex items-center mb-2 h-16">
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">
@@ -126,14 +150,18 @@ function Item({ exercice, enableOptions, options, disableOptions }) {
       </div>
       <AnimatePresence>
         {options.visible && options.id === exercice.id && (
-          <Options exercice={exercice} disableOptions={disableOptions} />
+          <Options
+            exercice={exercice}
+            disableOptions={disableOptions}
+            removeExercice={removeExercice}
+          />
         )}
       </AnimatePresence>
     </motion.li>
   );
 }
 
-function Options({ disableOptions, exercice }) {
+function Options({ disableOptions, exercice, removeExercice }) {
   return (
     <motion.div
       layout
@@ -162,7 +190,10 @@ function Options({ disableOptions, exercice }) {
     >
       <div className="flex-grow flex items-center justify-center">
         <div className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5">
-          <MdDelete className="h-full w-full object-cover text-red-600" />
+          <MdDelete
+            className="h-full w-full object-cover text-red-600"
+            onClick={removeExercice}
+          />
         </div>
       </div>
       <div>

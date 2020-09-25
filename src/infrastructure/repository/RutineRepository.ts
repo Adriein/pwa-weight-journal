@@ -34,11 +34,8 @@ export class RutineRepository implements Repository<Rutine> {
   }
 
   async update(id: string, body: Rutine): Promise<Rutine> {
-    console.log(id);
-    console.log(body);
-    return this.mapper.rutineSchemaToDomainRutine(
-      await new RutineModel(body).updateOne({ _id: id }, body)
-    );
+    await RutineModel.updateOne({ _id: id }, body).exec();
+    return await this.findOne(id);
   }
 
   async delete(id: string): Promise<number> {

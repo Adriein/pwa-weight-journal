@@ -111,7 +111,6 @@ export default function Rutines() {
   };
 
   const onDelete = (rutine) => () => {};
-
   return (
     <div className="h-screen">
       <Header currentPage={setCurrentPage()} navigation={navigationLogic()} />
@@ -177,6 +176,7 @@ function Rutine({
   onEdit,
   onDelete,
 }) {
+  console.log(rutine.creationDate);
   return (
     <motion.li layout className="w-full flex py-4 relative">
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">

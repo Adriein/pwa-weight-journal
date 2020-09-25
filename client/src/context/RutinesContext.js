@@ -9,6 +9,7 @@ const defaultState = {
   rutines: [],
   editing: {},
   rutine: {
+    id: '',
     name: '',
     description: '',
     exercices: [],
