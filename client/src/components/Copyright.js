@@ -1,15 +1,18 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import {version} from '../../package.json';
 
 export default function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
+  return (
+    <div className="flex-col text-center">
+      <p className="font-medium text-gray-500">
         {'Made with '}
         <span role="img" aria-label="icon heart">
           ❤️
         </span>
         {' by Adria Claret'}
         {'.'}
-      </Typography>
-    );
-  }
+      </p>
+      <p className="font-medium text-gray-500">{`v.${version}`}</p>
+    </div>
+  );
+}
