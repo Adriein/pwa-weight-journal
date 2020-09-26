@@ -9,7 +9,6 @@ import Login from './Login';
 import Home from './Home';
 import Rutines from './Rutines';
 
-
 function App() {
   return (
     <BrowserRouter>

@@ -2,13 +2,11 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { MdKeyboardArrowLeft, MdExitToApp, MdSettings } from 'react-icons/md';
-import { useHistory } from 'react-router-dom';
 
 import { DispatchContext } from '../context/AuthContext';
 
 export default function Header({ currentPage, navigation = {} }) {
   const dispatch = useContext(DispatchContext);
-  const history = useHistory();
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {

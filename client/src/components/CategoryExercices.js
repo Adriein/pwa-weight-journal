@@ -1,18 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { traduceCategories, beautifyName } from '../helpers';
+import { beautifyName } from '../helpers';
 import { ExerciceContext } from '../context/ExerciceContext';
-import { DispatchContext } from '../context/ExerciceContext';
 import { RutinesDispatcher } from '../context/RutinesContext';
-import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
 import { MdLabel, MdLabelOutline } from 'react-icons/md';
 
 export default function CategoryExercices() {
   const exercices = useContext(ExerciceContext);
-  const exerciceDispatcher = useContext(DispatchContext);
   const rutineDispatcher = useContext(RutinesDispatcher);
-  const history = useHistory();
   const [selected, setSelected] = useState([]);
 
   const pageVariants = {

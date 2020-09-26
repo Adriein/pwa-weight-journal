@@ -37,27 +37,29 @@ const pageTransition = {
   duration: 1,
 };
 
-const trainings = [
-  {
-    id: 1,
-    date: new Date('September 04, 2020 15:24:00').getTime(),
-    name: 'Pierna',
-    stats: [],
-    owner: 2,
-  },
-  {
-    id: 2,
-    date: new Date('September 05, 2020 17:00:00').getTime(),
-    name: 'Pecho',
-    stats: [],
-    owner: 2,
-  },
-];
-
 export default function Rutines() {
   const [options, setOptions] = useState({ visible: false, id: undefined });
   const rutineState = useContext(RutinesContext);
   const dispatcher = useContext(RutinesDispatcher);
+  const [lastYPos, setLastYPos] = useState(0);
+  const [shouldShowActions, setShouldShowActions] = useState(true);
+
+  useEffect(() => {
+    function handleScroll() {
+      const yPos = window.scrollY;
+      const isScrollingUp = yPos < lastYPos;
+
+      setShouldShowActions(isScrollingUp);
+      setLastYPos(yPos);
+    }
+
+    window.addEventListener("scroll", handleScroll, false);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, false);
+    };
+  }, [lastYPos]);
+
   useEffect(() => {
     (async () => {
       dispatcher({
@@ -128,20 +130,13 @@ export default function Rutines() {
       >
         {rutineState.render.default && (
           <div>
-            <div className="flex w-full px-4 pt-2 justify-center">
-              <div
-                className="flex items-center bg-purple-600 p-2 rounded-lg"
-                onClick={createRutine}
-              >
-                <div className="w-5 h-5 rounded-full overflow-hidden bg-white focus:outline-none focus:appearance-none ">
-                  <MdAdd className="h-full w-full object-cover text-purple-700 font-medium" />
-                </div>
-                <p className="text-white font-medium ml-2">Crea un entreno</p>
-              </div>
-            </div>
-
             <AnimateSharedLayout>
-              <ul className="p-4 h-full mb-16">
+              <ul className="p-4 h-full mb-20">
+                {rutineState.rutines.length < 1 && (
+                  <div className="flex items-center justify-center">
+                    <p>No hay rutinas</p>
+                  </div>
+                )}
                 {rutineState.rutines.map((rutine) => {
                   return (
                     <Rutine
@@ -164,6 +159,18 @@ export default function Rutines() {
           <RutineForm />
         )}
       </motion.div>
+      {rutineState.render.default && shouldShowActions && (
+        <div className="flex w-full px-4 py-2 pb-4 justify-end fixed mt-20 z-10 bottom-0 mb-24">
+          <div
+            className="flex items-center bg-purple-600 p-2 rounded-full"
+            onClick={createRutine}
+          >
+            <div className="w-6 h-6 rounded-full overflow-hidden focus:outline-none focus:appearance-none ">
+              <MdAdd className="h-full w-full object-cover text-white font-lg" />
+            </div>
+          </div>
+        </div>
+      )}
       <Navigation active={'trainings'} />
     </div>
   );
