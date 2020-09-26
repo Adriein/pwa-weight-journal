@@ -39,6 +39,7 @@ export class RutineRepository implements Repository<Rutine> {
   }
 
   async delete(id: string): Promise<number> {
-    throw new Error();
+    const deleted = (await RutineModel.deleteOne({ _id: id }).exec()).n;
+    return deleted!;
   }
 }

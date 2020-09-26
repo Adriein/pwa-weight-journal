@@ -107,10 +107,15 @@ export default function Rutines() {
   };
 
   const onEdit = (rutine) => () => {
-    dispatcher({ type: 'SET_EDIT', payload: rutine});
+    dispatcher({ type: 'SET_EDIT', payload: rutine });
   };
 
-  const onDelete = (rutine) => () => {};
+  const onDelete = (rutine) => async () => {
+    const result = (await axios.delete(`/api/rutine/${rutine.id}`)).data;
+    if (result.length > 0) {
+      dispatcher({ type: 'DELETE_RUTINE', payload: rutine.id });
+    }
+  };
   return (
     <div className="h-screen">
       <Header currentPage={setCurrentPage()} navigation={navigationLogic()} />
@@ -155,7 +160,9 @@ export default function Rutines() {
             </AnimateSharedLayout>
           </div>
         )}
-        {(rutineState.render.create || rutineState.render.edit) && <RutineForm/>}
+        {(rutineState.render.create || rutineState.render.edit) && (
+          <RutineForm />
+        )}
       </motion.div>
       <Navigation active={'trainings'} />
     </div>
@@ -176,7 +183,6 @@ function Rutine({
   onEdit,
   onDelete,
 }) {
-  console.log(rutine.creationDate);
   return (
     <motion.li layout className="w-full flex py-4 relative">
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 p-1">

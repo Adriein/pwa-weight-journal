@@ -12,3 +12,4 @@ export * from './exercices/RetriveAllExercicesByCategoryUseCase';
 export * from './rutines/RetriveAllRutinesUseCase';
 export * from './rutines/CreateRutineUseCase';
 export * from './rutines/UpdateRutineUseCase';
+export * from './rutines/DeleteRutineUseCase';

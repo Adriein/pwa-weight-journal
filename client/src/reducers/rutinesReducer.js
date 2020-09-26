@@ -15,7 +15,12 @@ const reducer = (state, action) => {
       };
     case 'SET_SEARCH':
       return {
-        render: { create: true, edit: false, default: false, search: true },
+        render: {
+          create: state.render.create,
+          edit: state.render.edit,
+          default: false,
+          search: true,
+        },
         rutines: [...state.rutines],
         rutine: state.rutine,
         error: undefined,
@@ -25,11 +30,7 @@ const reducer = (state, action) => {
       return {
         render: { create: true, edit: false, default: false, search: false },
         rutines: [...state.rutines],
-        rutine: {
-          name: '',
-          description: '',
-          exercices: [],
-        },
+        rutine: state.rutine,
         error: undefined,
         loading: false,
       };
@@ -64,7 +65,7 @@ const reducer = (state, action) => {
     case 'SAVE_RUTINE':
       return {
         render: { create: false, edit: false, default: true, search: false },
-        rutines: [...state.rutines, action.payload],
+        rutines: [...state.rutines, ...action.payload],
         rutine: {
           id: '',
           name: '',
@@ -93,9 +94,29 @@ const reducer = (state, action) => {
         error: undefined,
         loading: false,
       };
+    case 'DELETE_RUTINE':
+      return {
+        render: { create: false, edit: false, default: true, search: false },
+        rutines: [
+          ...state.rutines.filter((rutine) => rutine.id !== action.payload),
+        ],
+        rutine: {
+          id: '',
+          name: '',
+          description: '',
+          exercices: [],
+        },
+        error: undefined,
+        loading: false,
+      };
     case 'ADD_EXERCICE':
       return {
-        render: state.render,
+        render: {
+          create: state.render.create,
+          edit: state.render.edit,
+          default: state.render.default,
+          search: false,
+        },
         rutines: [...state.rutines],
         rutine: {
           id: state.rutine.id,

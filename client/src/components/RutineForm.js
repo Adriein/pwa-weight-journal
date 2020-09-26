@@ -31,7 +31,10 @@ export default function RutineForm() {
         payload: (
           await axios.post(
             'api/rutine',
-            Object.assign({}, rutineState.rutine, value)
+            Object.assign({}, rutineState.rutine, {
+              name: value.name,
+              description: value.description,
+            })
           )
         ).data,
       });
@@ -41,7 +44,11 @@ export default function RutineForm() {
         payload: (
           await axios.put(
             'api/rutine',
-            Object.assign({}, rutineState.rutine, value)
+            Object.assign({}, rutineState.rutine, {
+              id: value.id,
+              name: value.name,
+              description: value.description,
+            })
           )
         ).data,
       });
@@ -189,11 +196,11 @@ function Options({ disableOptions, exercice, removeExercice }) {
       className={`absolute bg-gray-200 p-1 rounded inset-0 flex`}
     >
       <div className="flex-grow flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5">
-          <MdDelete
-            className="h-full w-full object-cover text-red-600"
-            onClick={removeExercice}
-          />
+        <div
+          className="w-10 h-10 rounded-full overflow-hidden p-1 bg-red-200 ml-5"
+          onClick={removeExercice(exercice)}
+        >
+          <MdDelete className="h-full w-full object-cover text-red-600" />
         </div>
       </div>
       <div>

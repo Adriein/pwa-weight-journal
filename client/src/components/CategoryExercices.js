@@ -59,7 +59,6 @@ export default function CategoryExercices() {
   };
 
   const setTraining = () => {
-    rutineDispatcher({ type: 'SET_CREATE' });
     rutineDispatcher({
       type: 'ADD_EXERCICE',
       payload: selected,

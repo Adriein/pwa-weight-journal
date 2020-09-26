@@ -4,6 +4,7 @@ import { Rutine, Repository } from '../core/entities';
 import { RutineRepository } from '../infrastructure/repository';
 import {
   CreateRutineUseCase,
+  DeleteRutineUseCase,
   RetriveAllRutinesUseCase,
   UpdateRutineUseCase,
 } from '../core/usecases';
@@ -49,6 +50,19 @@ router.put(
       const usecase = new UpdateRutineUseCase(rutineRepository);
       req.body.userId = req.currentUser!.id;
       res.status(200).send((await usecase.execute(req.body)).data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete(
+  '/rutine/:id',
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const usecase = new DeleteRutineUseCase(rutineRepository);
+      res.status(200).send((await usecase.execute(req.params.id)).data);
     } catch (error) {
       next(error);
     }
