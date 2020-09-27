@@ -12,30 +12,7 @@ import RutineForm from './RutineForm';
 
 import useTimeAgo from '../hooks/useTimeAgo';
 import axios from 'axios';
-
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    x: '-100vw',
-    scale: 0.8,
-  },
-  in: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-  },
-  out: {
-    opacity: 0,
-    x: '100vw',
-    scale: 1.2,
-  },
-};
-
-const pageTransition = {
-  type: 'tween',
-  ease: 'anticipate',
-  duration: 1,
-};
+import { pageVariants, pageTransition } from '../helpers';
 
 export default function Rutines() {
   const [options, setOptions] = useState({ visible: false, id: undefined });
@@ -53,10 +30,10 @@ export default function Rutines() {
       setLastYPos(yPos);
     }
 
-    window.addEventListener("scroll", handleScroll, false);
+    window.addEventListener('scroll', handleScroll, false);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll, false);
+      window.removeEventListener('scroll', handleScroll, false);
     };
   }, [lastYPos]);
 
@@ -159,16 +136,22 @@ export default function Rutines() {
           <RutineForm />
         )}
       </motion.div>
-      {rutineState.render.default && shouldShowActions && (
+      {rutineState.render.default && (
         <div className="flex w-full px-4 py-2 pb-4 justify-end fixed mt-20 z-10 bottom-0 mb-24">
-          <div
+          <motion.div
+            initial={{ scale: 0.0 }}
+            animate={{
+              scale:
+                rutineState.render.default && shouldShowActions ? 1.2 : 0.0,
+            }}
+            transition={pageTransition}
             className="flex items-center bg-purple-600 p-2 rounded-full"
             onClick={createRutine}
           >
             <div className="w-6 h-6 rounded-full overflow-hidden focus:outline-none focus:appearance-none ">
               <MdAdd className="h-full w-full object-cover text-white font-lg" />
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
       <Navigation active={'trainings'} />

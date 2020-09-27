@@ -11,6 +11,7 @@ import Carousel from './Carousel';
 
 import { MdLayers } from 'react-icons/md';
 import CategoryExercices from './CategoryExercices';
+import { pageVariants, pageTransition } from '../helpers';
 
 export default function SearchExercices() {
   const ref = useRef();
@@ -52,7 +53,14 @@ export default function SearchExercices() {
   };
 
   return (
-    <div className="w-full">
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      className="w-full"
+    >
       {!category && (
         <section>
           <p className="text-base text-gray-600 font-medium mb-3">
@@ -93,6 +101,6 @@ export default function SearchExercices() {
           <CategoryExercices />
         </section>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -8,6 +8,7 @@ import { RutinesDispatcher } from '../context/RutinesContext';
 import SearchExercices from './SearchExercices';
 
 import useInputState from '../hooks/useInputState';
+import { pageVariants, pageTransition } from '../helpers';
 import axios from 'axios';
 
 export default function RutineForm() {
@@ -64,7 +65,14 @@ export default function RutineForm() {
   };
 
   return (
-    <div className="p-4">
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      className="p-4"
+    >
       {!rutineState.render.search && (
         <form action="">
           <p className="font-semibold text-gray-600 mb-1 text-lg">
@@ -132,7 +140,7 @@ export default function RutineForm() {
       )}
 
       {rutineState.render.search && <SearchExercices />}
-    </div>
+    </motion.div>
   );
 }
 

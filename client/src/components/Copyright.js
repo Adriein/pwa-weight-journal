@@ -4,7 +4,7 @@ import {version} from '../../package.json';
 export default function Copyright() {
   return (
     <div className="flex-col text-center">
-      <p className="font-medium text-gray-500">
+      <p className="font-medium text-gray-400">
         {'Made with '}
         <span role="img" aria-label="icon heart">
           ❤️
@@ -12,7 +12,7 @@ export default function Copyright() {
         {' by Adria Claret'}
         {'.'}
       </p>
-      <p className="font-medium text-gray-500">{`v.${version}`}</p>
+      <p className="font-medium text-gray-400">{`v.${version}`}</p>
     </div>
   );
 }

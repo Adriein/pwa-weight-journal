@@ -51,7 +51,7 @@ export default function Header({ currentPage, navigation = {} }) {
         {currentPage}
       </motion.h2>
       <div className="z-20 ">
-        <motion.button
+        <motion.div
           initial={{ x: 100 }}
           animate={{ x: 0 }}
           transition={{ duration: 0.5, type: 'tween' }}
@@ -67,7 +67,7 @@ export default function Header({ currentPage, navigation = {} }) {
             className="h-full w-full object-cover"
             src="/api/static/profile"
           />
-        </motion.button>
+        </motion.div>
         {open && (
           <div className="absolute z-20 rounded-lg right-0 p-1 bg-gray-200 p-1 mr-4">
             <button className="outline-none w-full p-2 flex items-center focus:outline-none focus:appearance-none active:bg-white">
