@@ -1,8 +1,5 @@
 export default interface TraningLog {
   id: string;
-  kg: number;
-  series: number;
-  reps: number;
-  date: Date;
+  serie: { number: number; kg: number; reps: number };
   exerciceId: string;
 }

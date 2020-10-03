@@ -5,10 +5,11 @@ export class TrainingMapper {
   logSchemaToDomainTraining({
     _id,
     rutineId,
+    userId,
     logs,
     creationDate,
   }: TraningDoc): Training {
-    return { id: _id, rutineId, logs, creationDate } as Training;
+    return { id: _id, rutineId, userId, logs, creationDate } as Training;
   }
 
   logsSchemaToDomainTrainings(trainings: TraningDoc[]): Training[] {
@@ -16,6 +17,7 @@ export class TrainingMapper {
       return {
         id: training._id,
         rutineId: training.rutineId,
+        userId: training.userId,
         logs: training.logs,
         creationDate: training.creationDate,
       } as Training;

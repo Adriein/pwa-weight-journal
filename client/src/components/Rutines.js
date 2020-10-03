@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
 
 import { RutinesContext } from '../context/RutinesContext';
 import { RutinesDispatcher } from '../context/RutinesContext';
@@ -20,6 +21,7 @@ export default function Rutines() {
   const dispatcher = useContext(RutinesDispatcher);
   const [lastYPos, setLastYPos] = useState(0);
   const [shouldShowActions, setShouldShowActions] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     function handleScroll() {
@@ -62,12 +64,21 @@ export default function Rutines() {
     setOptions({ visible: true, id: training.id });
   };
 
-  const disableOptions = (training) => () => {
-    setOptions({ visible: false, id: training.id });
+  const disableOptions = (rutine) => () => {
+    setOptions({ visible: false, id: rutine.id });
   };
 
-  const enableDetails = (training) => (event) => {
-    console.log(training);
+  const enableDetails = (rutine) => () => {
+    dispatcher({
+      type: 'SELECT_RUTINE',
+      payload: {
+        id: rutine.id,
+        name: rutine.name,
+        description: rutine.description,
+        exercices: rutine.exercices,
+      },
+    });
+    history.push('/logs');
   };
 
   const navigationLogic = () => {

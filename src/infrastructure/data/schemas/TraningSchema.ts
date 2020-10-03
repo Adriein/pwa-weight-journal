@@ -3,7 +3,12 @@ import mongoose, { Schema } from 'mongoose';
 export interface TraningDoc extends mongoose.Document {
   _id: string;
   rutineId: string;
-  logs: { id: string, kg: number; reps: number; series: number; exerciceId: string }[];
+  userId: string;
+  logs: {
+    id: string;
+    serie: { number: number; kg: number; reps: number };
+    exerciceId: string;
+  }[];
   creationDate: Date;
 }
 
@@ -15,6 +20,10 @@ const traningSchema = new Schema(
     },
     logs: {
       type: Array,
+    },
+    userID: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

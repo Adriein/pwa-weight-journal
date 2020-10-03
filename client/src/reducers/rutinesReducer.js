@@ -144,6 +144,14 @@ const reducer = (state, action) => {
         error: undefined,
         loading: false,
       };
+    case 'SELECT_RUTINE':
+      return {
+        render: state.render,
+        rutines: [...state.rutines],
+        rutine: action.payload,
+        error: undefined,
+        loading: false,
+      };
     default:
       return state;
   }

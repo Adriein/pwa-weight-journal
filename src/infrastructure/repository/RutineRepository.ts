@@ -2,14 +2,13 @@ import { Rutine, Repository } from '../../core/entities';
 import { RutineModel, RutineDoc } from '../data/schemas';
 import { RutineMapper } from '../data/mappers/RutineMapper';
 import { ExerciceRepository } from './ExerciceRepository';
+import { Log } from '../../core/decorators';
 
 export class RutineRepository implements Repository<Rutine> {
   private mapper: RutineMapper;
-  private exerciceRepository: ExerciceRepository;
 
   constructor() {
     this.mapper = new RutineMapper();
-    this.exerciceRepository = new ExerciceRepository();
   }
 
   async findMany(searchObj: any): Promise<Rutine[]> {
