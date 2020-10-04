@@ -5,8 +5,8 @@ export const LogContext = createContext();
 export const LogDispatcherContext = createContext();
 
 const defaultState = {
-  render: { default: true, create: false },
-  logs: [],
+  render: { default: true, create: false, showForm: false, serie: 0 },
+  log: {},
   error: undefined,
   loading: false,
 };

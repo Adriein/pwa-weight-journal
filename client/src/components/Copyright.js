@@ -12,7 +12,7 @@ export default function Copyright() {
         {' by Adria Claret'}
         {'.'}
       </p>
-      <p className="font-medium text-gray-400">{`v.${version}`}</p>
+      <p className="font-medium text-gray-400">{`v${version}`}</p>
     </div>
   );
 }
